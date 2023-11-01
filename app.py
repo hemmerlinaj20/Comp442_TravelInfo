@@ -7,6 +7,7 @@ from forms import LoginForm, PreferenceForm
 
 # Path to database file
 # TODO: insert database name
+# TODO: create database models in separte py file
 scriptdir = os.path.dirname(os.path.abspath(__file__))
 dbfile = os.path.join(scriptdir, "")
 
@@ -36,6 +37,7 @@ def get_login():
     
 @app.post('/login')
 def post_login():
+    login_form: LoginForm = LoginForm()
     if login_form.validate():
             # TODO: log user in to page
             # TODO: keep them in the session to keep them logged in
@@ -63,5 +65,5 @@ def post_preference_form():
     else:
         for field,error_msg in user_preference_form.errors.items():
                 flash(f"{field}: {error_msg}")
-        # redirect user to get the form again
+    # redirect user to get the form again
     return redirect(url_for('get_preference_form'))
