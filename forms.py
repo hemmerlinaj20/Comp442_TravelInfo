@@ -5,3 +5,7 @@ from wtforms.validators import InputRequired
 class LoginForm(FlaskForm):
     # TODO: Make LoginForm
     pass
+
+class PreferenceForm(FlaskForm):
+    # TODO: Make PreferenceForm
+    pass
