@@ -42,7 +42,6 @@ def get_page():
 @app.get('/login')
 def get_login():
     login_form: LoginForm = LoginForm()
-    # TODO: create and make 'login_form.html' jinja template
     return render_template('login_form.html', form = login_form)
     
 @app.post('/login')
@@ -89,7 +88,6 @@ def get_home_page():
 @app.get('/user_preference')
 def get_preference_form():
     user_preference_form: PreferenceForm = PreferenceForm()
-    # TODO: create and make 'user_preference_form.html' jinja template
     return render_template('user_preference_form.html', form = user_preference_form)
 
 @app.post('/user_preference')
