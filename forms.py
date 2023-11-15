@@ -1,11 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField
-from wtforms.validators import InputRequired
+from wtforms import SubmitField, StringField, PasswordField
+from wtforms.validators import InputRequired, Email, Length
 
 class LoginForm(FlaskForm):
-    # TODO: Make LoginForm
-    pass
+    email = StringField("Email", validators=[InputRequired(), Email()])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=256)])
+    submit = SubmitField("Login")
 
 class PreferenceForm(FlaskForm):
-    # TODO: Make PreferenceForm
-    pass
+    travel_dates = StringField("Preferred Travel Dates", validators=[InputRequired()])
+    budget = StringField("Budget", validators=[InputRequired()])
+    submit = SubmitField("Save Preferences")

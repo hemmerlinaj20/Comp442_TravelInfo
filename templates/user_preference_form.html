@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Preferences</title>
+</head>
+<body>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.travel_dates.label }}
+        {{ form.travel_dates() }}
+        <br>
+        {{ form.budget.label }}
+        {{ form.budget() }}
+        <br>
+        
+        {{ form.submit() }}
+    </form>
+</body>
+</html>

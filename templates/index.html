@@ -6,6 +6,11 @@
     <title>Home</title>
 </head>
 <body>
-    
+    {% if preferences %}
+        <h1>User Preferences:</h1>
+        <p>{{ preferences }}</p>
+    {% else %}
+        <p>No preferences set.</p>
+    {% endif %}
 </body>
 </html>
