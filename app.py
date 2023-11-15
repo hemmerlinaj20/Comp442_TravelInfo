@@ -7,7 +7,7 @@ from forms import LoginForm, PreferenceForm
 
 # Path to database file
 # TODO: insert database name
-# TODO: create database models in separte py file
+# TODO: create database models in separate py file
 scriptdir = os.path.dirname(os.path.abspath(__file__))
 dbfile = os.path.join(scriptdir, "")
 
