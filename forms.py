@@ -11,3 +11,9 @@ class PreferenceForm(FlaskForm):
     travel_dates = StringField("Preferred Travel Dates", validators=[InputRequired()])
     budget = StringField("Budget", validators=[InputRequired()])
     submit = SubmitField("Save Preferences")
+
+class SignUpForm(FlaskForm):
+    name = StringField("Name", validators = [InputRequired()]) # TODO: put a max length limit
+    email = StringField("Email", validators = [InputRequired(), Email()])
+    password = StringField("Password", validators = [InputRequired()]) # TODO: put a min and max limit
+    submit = SubmitField("Submit")

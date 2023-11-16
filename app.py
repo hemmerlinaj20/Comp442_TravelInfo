@@ -3,7 +3,7 @@ from flask import Flask, render_template, redirect, url_for, flash
 from flask import request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import LoginForm, PreferenceForm
+from forms import LoginForm, PreferenceForm, SignUpForm
 
 # Path to database file
 # TODO: insert database name
@@ -21,9 +21,11 @@ db = SQLAlchemy(app)
 
 # Define user model
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    preferences = db.Column(db.String(255), nullable=True)
+    uid = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Unicode, nullable = False)
+    email = db.Column(db.Unicode, nullable=False)
+    password = db.Column(db.Unicode)
+    #preferences = db.Column(db.Unicode, nullable=True)
 
 # Create database tables
 with app.app_context():
@@ -53,7 +55,7 @@ def post_login():
         
         if user is not None and user.verify_password(login_form.password.data):
             # Log in the user and store their id in the session
-            session['user_id'] = user.id
+            session['user_id'] = user.uid
             # Redirect the user to the home page
             return redirect(url_for('get_home_page'))
         else:
@@ -107,6 +109,28 @@ def post_preference_form():
                 flash(f"{field}: {error_msg}")
     # redirect user to get the form again
     return redirect(url_for('get_preference_form'))
+
+@app.get('/signup')
+def get_signup():
+    signup_form = SignUpForm()
+    return render_template('signup.html', form = signup_form)
+
+@app.post('/signup')
+def post_signup():
+    signup_form = SignUpForm()
+    if signup_form.validate():
+        user = User(
+            name = signup_form.name.data,
+            email = signup_form.email.data,
+            password = signup_form.password.data
+        )
+        db.session.add(user)
+        db.session.commit()
+        return "Good"
+    else:
+        for field,error_msg in signup_form.errors.items():
+                flash(f"{field}: {error_msg}")
+    return redirect(url_for('get_signup'))
 
 # API endpoint for dynamic search
 @app.route('/search', methods=['POST'])
