@@ -89,7 +89,10 @@ def logout():
 @app.get('/home')
 def get_home_page():
     # Check if the user is logged in
-    if 'user_id' in session:
+    user_id = str(session.get('user_id')) # current user logged in
+    
+    # TODO: check if they are in the database
+    if user_id:
         # Get user preferences from the database
         user_id = session['user_id']
         user = User.query.get(user_id)
@@ -145,7 +148,7 @@ def post_signup():
         # Sample Return since get_home currently does not work
         # TODO: redirect to home page
         session['user_id'] = user.uid
-        return redirect('get_home')
+        return redirect('get_home_page')
     else:
         for field,error_msg in signup_form.errors.items():
                 flash(f"{field}: {error_msg}")
