@@ -6,7 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 from forms import LoginForm, PreferenceForm, SignUpForm
 
 # Path to database file
-# TODO: insert database name
 # TODO: create database models in separate py file
 scriptdir = os.path.dirname(os.path.abspath(__file__))
 dbfile = os.path.join(scriptdir, "vacation_finder.db")
@@ -38,6 +37,7 @@ with app.app_context():
 @app.get('/')
 def get_page():
     # Check if the user is logged in
+    # THIS DOES NOT WORK, NEEDS FIXED
     if 'user_id' in session:
         return redirect(url_for('get_home_page'))
     else:
@@ -55,7 +55,7 @@ def post_login():
     if login_form.validate():
         # Retrieve the user from the database based on the provided email
         user = User.query.filter_by(email=login_form.email.data).first()
-        
+        # TODO: NEEDS FIXED
         if user is not None and user.verify_password(login_form.password.data):
             # Log in the user and store their id in the session
             session['user_id'] = user.uid
@@ -133,6 +133,7 @@ def post_signup():
         )
         db.session.add(user)
         db.session.commit()
+        # Sample Return since get_home currently does not work
         return "Good"
     else:
         for field,error_msg in signup_form.errors.items():
