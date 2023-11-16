@@ -31,6 +31,12 @@ class User(db.Model):
 with app.app_context():
     db.drop_all() # for testing, will remove later
     db.create_all()
+    # users for testing purposes, delete later
+    user1 = User(name = "Bob", email = "hi@gmail.com", password = "12345678", premium = "N")
+    user2 = User(name = "Joe", email = "hey@gmail.com", password = "00000000", premium = "Y")
+    db.session.add(user1)
+    db.session.add(user2)
+    db.session.commit()
 
 # TODO: add hasher stuff for password saving
 
@@ -57,7 +63,7 @@ def post_login():
         # Retrieve the user from the database based on the provided email
         user = User.query.filter_by(email=login_form.email.data).first()
         # TODO: NEEDS FIXED
-        if user is not None and user.verify_password(login_form.password.data):
+        if user is not None and user.password == login_form.password.data:
             # Log in the user and store their id in the session
             session['user_id'] = user.uid
             # Redirect the user to the home page
@@ -87,8 +93,9 @@ def get_home_page():
         # Get user preferences from the database
         user_id = session['user_id']
         user = User.query.get(user_id)
-        preferences = user.preferences if user.preferences else "No preferences set."
-        return render_template('index.html', preferences=preferences)
+        #preferences = user.preferences if user.preferences else "No preferences set."
+        #return render_template('index.html', preferences=preferences)
+        return render_template("index.html")
     else:
         flash('Please log in first', 'warning')
         return redirect(url_for('get_login'))
@@ -137,7 +144,8 @@ def post_signup():
         db.session.commit()
         # Sample Return since get_home currently does not work
         # TODO: redirect to home page
-        return "Good"
+        session['user_id'] = user.uid
+        return redirect('get_home')
     else:
         for field,error_msg in signup_form.errors.items():
                 flash(f"{field}: {error_msg}")

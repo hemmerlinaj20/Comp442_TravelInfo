@@ -18,5 +18,5 @@ class SignUpForm(FlaskForm):
     email = StringField("Email", validators = [InputRequired(), Email()])
     password = PasswordField("Password", validators = [InputRequired()]) # TODO: put a min and max limit
     confirm_password = PasswordField("Confirm Password", validators = [InputRequired()]) # TODO: put a min and max limit
-    premium = SelectField("Premium", choices = [("Y","Yes"),("N","No")])
-    submit = SubmitField("Submit")
+    premium = SelectField("Premium", choices = [("Y","Yes"),("N","No")]) # TODO: make an enum
+    submit = SubmitField("Sign Up")

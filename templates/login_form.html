@@ -6,15 +6,25 @@
     <title>Login</title>
 </head>
 <body>
-    <form method="POST">
+    <div id="error-messages">
+        {% for msg in get_flashed_messages() %}
+        <div class="alert alert-warning alert-dismissible fade show w-50 mx-auto" role="alert">
+          {{ msg }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+      </div>
+    
+      <form method="POST">
         {{ form.hidden_tag() }}
-        <label for="{{ form.email.id }}">Email:</label>
+    
+        {{ form.email.label }}
         {{ form.email() }}
         <br>
-        <label for="{{ form.password.id }}">Password:</label>
-        {{ form.password() }}
+        {{ form.password.label }}
+        {{ form.password }}
         <br>
         {{ form.submit() }}
-    </form>
+      </form>
 </body>
 </html>
