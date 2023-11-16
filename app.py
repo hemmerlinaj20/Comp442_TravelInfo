@@ -136,6 +136,7 @@ def post_signup():
         db.session.add(user)
         db.session.commit()
         # Sample Return since get_home currently does not work
+        # TODO: redirect to home page
         return "Good"
     else:
         for field,error_msg in signup_form.errors.items():
