@@ -23,7 +23,8 @@ class User(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode, nullable = False)
     email = db.Column(db.Unicode, nullable=False)
-    password = db.Column(db.Unicode)
+    password = db.Column(db.Unicode, nullable = False)
+    premium = db.Column(db.Unicode, nullable = False) # TODO: Make this an enum "Y" or "N"
     #preferences = db.Column(db.Unicode, nullable=True)
 
 # Create database tables
@@ -129,7 +130,8 @@ def post_signup():
         user = User(
             name = signup_form.name.data,
             email = signup_form.email.data,
-            password = signup_form.password.data
+            password = signup_form.password.data,
+            premium = signup_form.premium.data
         )
         db.session.add(user)
         db.session.commit()

@@ -10,6 +10,9 @@ app.py
 forms.py
  - define our forms
 
+signup.html
+ - enforce confirm password field to be the same as the password field with JavaScript
+
 login_form.html
  - make the page
  - style the page (CSS file in static folder)
