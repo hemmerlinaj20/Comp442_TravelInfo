@@ -29,6 +29,7 @@ class User(db.Model):
 
 # Create database tables
 with app.app_context():
+    db.drop_all() # for testing, will remove later
     db.create_all()
 
 # TODO: add hasher stuff for password saving
