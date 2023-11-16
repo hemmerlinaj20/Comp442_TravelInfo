@@ -34,6 +34,7 @@ with app.app_context():
 
 # TODO: add hasher stuff for password saving
 
+# Gets the home page (index.html)
 @app.get('/')
 def get_page():
     # Check if the user is logged in
@@ -42,11 +43,12 @@ def get_page():
     else:
         return redirect(url_for('get_login'))
     
+# Gets the login page (login_form.html)
 @app.get('/login')
 def get_login():
     login_form: LoginForm = LoginForm()
     return render_template('login_form.html', form = login_form)
-    
+# Post method for the login page
 @app.post('/login')
 def post_login():
     login_form: LoginForm = LoginForm()
@@ -68,6 +70,7 @@ def post_login():
     # redirect user to get the form again
     return redirect(url_for('get_login'))
 
+# logout
 @app.route('/logout')
 def logout():
     # Clear the session and redirect to the home page
@@ -75,6 +78,7 @@ def logout():
     flash('You have logged out', 'info')
     return redirect(url_for('get_page'))
 
+# Home page
 @app.get('/home')
 def get_home_page():
     # Check if the user is logged in
@@ -88,11 +92,12 @@ def get_home_page():
         flash('Please log in first', 'warning')
         return redirect(url_for('get_login'))
     
+# User Preference form
 @app.get('/user_preference')
 def get_preference_form():
     user_preference_form: PreferenceForm = PreferenceForm()
     return render_template('user_preference_form.html', form = user_preference_form)
-
+# Post for user preference form
 @app.post('/user_preference')
 def post_preference_form():
     user_preference_form: PreferenceForm = PreferenceForm()
@@ -111,11 +116,12 @@ def post_preference_form():
     # redirect user to get the form again
     return redirect(url_for('get_preference_form'))
 
+# Signup form
 @app.get('/signup')
 def get_signup():
     signup_form = SignUpForm()
     return render_template('signup.html', form = signup_form)
-
+# Post for signup form
 @app.post('/signup')
 def post_signup():
     signup_form = SignUpForm()
