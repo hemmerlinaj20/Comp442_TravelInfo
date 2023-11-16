@@ -148,7 +148,7 @@ def post_signup():
         # Sample Return since get_home currently does not work
         # TODO: redirect to home page
         session['user_id'] = user.uid
-        return redirect('get_home_page')
+        return redirect(url_for('get_home_page'))
     else:
         for field,error_msg in signup_form.errors.items():
                 flash(f"{field}: {error_msg}")
