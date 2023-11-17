@@ -84,7 +84,7 @@ def post_login():
 
 # logout
 @app.route('/logout')
-def logout():
+def get_logout():
     # Clear the session and redirect to the home page
     session.clear()
     flash('You have logged out', 'info')
