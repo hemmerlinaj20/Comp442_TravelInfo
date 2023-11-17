@@ -123,7 +123,10 @@ def get_profile():
 @app.post('/change_name')
 def post_change_name():
     user: User = User.query.get(session.get('user_id'))
-    return "Not implemented yet"
+    new_name = request.form.get("name")
+    user.name = new_name
+    db.session.commit()
+    return redirect(url_for('get_profile'))
 
 @app.post('/change_premium')
 def post_change_premium():
