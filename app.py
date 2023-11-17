@@ -88,7 +88,7 @@ def get_logout():
     # Clear the session and redirect to the home page
     session.clear()
     flash('You have logged out', 'info')
-    return redirect(url_for('get_page'))
+    return redirect(url_for('get_home'))
 
 # Signup Page
 @app.get('/signup')
