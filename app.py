@@ -3,10 +3,9 @@ from flask import Flask, render_template, redirect, url_for, flash
 from flask import request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import requests
-from forms import LoginForm, PreferenceForm, SignUpForm, FlightSearchForm
+from forms import LoginForm, SignUpForm, FlightSearchForm
 
 # Path to database file
-# TODO: create database models in separate py file
 scriptdir = os.path.dirname(os.path.abspath(__file__))
 dbfile = os.path.join(scriptdir, "vacation_finder.db")
 
@@ -25,7 +24,6 @@ class User(db.Model):
     email = db.Column(db.Unicode, nullable=False)
     password = db.Column(db.Unicode, nullable = False)
     premium = db.Column(db.Unicode, nullable = False) # TODO: Make this an enum "Y" or "N"
-    #preferences = db.Column(db.Unicode, nullable=True)
 
 # Create database tables
 with app.app_context():
@@ -43,12 +41,17 @@ with app.app_context():
 # Gets the home page (index.html)
 @app.get('/')
 def get_page():
+    return redirect(url_for("get_home"))
+
+# Home page
+@app.get('/home')
+def get_home():
     # Check if the user is logged in
-    # THIS DOES NOT WORK, NEEDS FIXED
-    if 'user_id' in session:
-        return redirect(url_for('get_home_page'))
-    else:
-        return redirect(url_for('get_login'))
+    user_id: int = session.get('user_id') # current user logged in (I think its an int, but might be a str)
+    user: User = User.query.get(user_id)
+    # If user logged in -> give them a personalized page
+    # If not logged in -> generic home page
+    return render_template("index.html", user = user)
     
 # Gets the login page (login_form.html)
 @app.get('/login')
@@ -62,12 +65,12 @@ def post_login():
     if login_form.validate():
         # Retrieve the user from the database based on the provided email
         user = User.query.filter_by(email=login_form.email.data).first()
-        # TODO: NEEDS FIXED
+        # TODO: Needs updated to hashed password
         if user is not None and user.password == login_form.password.data:
             # Log in the user and store their id in the session
             session['user_id'] = user.uid
             # Redirect the user to the home page
-            return redirect(url_for('get_home_page'))
+            return redirect(url_for('get_home'))
         else:
             flash('Invalid email address or password')
             return redirect(url_for('get_login'))
@@ -79,65 +82,23 @@ def post_login():
 
 # logout
 @app.route('/logout')
-def logout():
+def get_logout():
     # Clear the session and redirect to the home page
     session.clear()
     flash('You have logged out', 'info')
-    return redirect(url_for('get_page'))
+    return redirect(url_for('get_home'))
 
-# Home page
-@app.get('/home')
-def get_home_page():
-    # Check if the user is logged in
-    user_id = str(session.get('user_id')) # current user logged in
-    
-    # TODO: check if they are in the database
-    if user_id:
-        # Get user preferences from the database
-        user_id = session['user_id']
-        user = User.query.get(user_id)
-        #preferences = user.preferences if user.preferences else "No preferences set."
-        #return render_template('index.html', preferences=preferences)
-        return render_template("index.html")
-    else:
-        flash('Please log in first', 'warning')
-        return redirect(url_for('get_login'))
-    
-# User Preference form
-@app.get('/user_preference')
-def get_preference_form():
-    user_preference_form: PreferenceForm = PreferenceForm()
-    return render_template('user_preference_form.html', form = user_preference_form)
-# Post for user preference form
-@app.post('/user_preference')
-def post_preference_form():
-    user_preference_form: PreferenceForm = PreferenceForm()
-    if user_preference_form.validate():
-        # save form data to database with the user
-        user_id = session['user_id']
-        user = User.query.get(user_id)
-        user.preferences = str(user_preference_form.data)
-        db.session.commit()
-        flash('Preferences saved successfully', 'success')
-        # redirect user to home page or recommendation/search page
-        return redirect(url_for('get_home_page'))
-    else:
-        for field,error_msg in user_preference_form.errors.items():
-                flash(f"{field}: {error_msg}")
-    # redirect user to get the form again
-    return redirect(url_for('get_preference_form'))
-
-# Signup form
+# Signup Page
 @app.get('/signup')
 def get_signup():
-    signup_form = SignUpForm()
+    signup_form: SignUpForm = SignUpForm()
     return render_template('signup.html', form = signup_form)
 # Post for signup form
 @app.post('/signup')
 def post_signup():
-    signup_form = SignUpForm()
+    signup_form: SignUpForm = SignUpForm()
     if signup_form.validate():
-        user = User(
+        user: User = User(
             name = signup_form.name.data,
             email = signup_form.email.data,
             password = signup_form.password.data,
@@ -145,14 +106,35 @@ def post_signup():
         )
         db.session.add(user)
         db.session.commit()
-        # Sample Return since get_home currently does not work
-        # TODO: redirect to home page
+        # log user in and redirect to home page
         session['user_id'] = user.uid
-        return redirect(url_for('get_home_page'))
+        return redirect(url_for('get_home'))
     else:
         for field,error_msg in signup_form.errors.items():
                 flash(f"{field}: {error_msg}")
     return redirect(url_for('get_signup'))
+
+@app.get('/profile')
+def get_profile():
+    user_id: int = session.get('user_id') # current user logged in (I think its an int, but might be a str)
+    user: User = User.query.get(user_id)
+    return render_template('profile.html', user = user)
+
+@app.get('/change_premium')
+def get_change_premium():
+    return "Not Implemented Yet"
+
+@app.get('/change_password')
+def get_change_password():
+    return "Not Implemented Yet"
+
+@app.get('/change_email')
+def get_change_email():
+    return "Not Implemented Yet"
+
+@app.get('/change_name')
+def get_change_name():
+    return "Not Implemented Yet"
 
 # API endpoint for dynamic search
 @app.route('/search', methods=['POST'])

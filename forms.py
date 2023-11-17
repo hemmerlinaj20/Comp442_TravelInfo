@@ -7,17 +7,12 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=256)])
     submit = SubmitField("Login")
 
-class PreferenceForm(FlaskForm):
-    travel_dates = StringField("Preferred Travel Dates", validators=[InputRequired()])
-    budget = StringField("Budget", validators=[InputRequired()])
-    submit = SubmitField("Save Preferences")
-
 # Sign Up Form to Register a User
 class SignUpForm(FlaskForm):
-    name = StringField("Name", validators = [InputRequired()]) # TODO: put a max length limit
+    name = StringField("Name", validators = [InputRequired(), Length(max=256)])
     email = StringField("Email", validators = [InputRequired(), Email()])
-    password = PasswordField("Password", validators = [InputRequired()]) # TODO: put a min and max limit
-    confirm_password = PasswordField("Confirm Password", validators = [InputRequired()]) # TODO: put a min and max limit
+    password = PasswordField("Password", validators = [InputRequired(), Length(min=8, max=256)]) 
+    confirm_password = PasswordField("Confirm Password", validators = [InputRequired(), Length(min=8, max=256)]) 
     premium = SelectField("Premium", choices = [("Y","Yes"),("N","No")]) # TODO: make an enum
     submit = SubmitField("Sign Up")
 

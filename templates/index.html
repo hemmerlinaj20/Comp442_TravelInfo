@@ -12,13 +12,28 @@
     <script defer crossorigin="anonymous"
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"></script>
+
 </head>
 <body>
-    {% if preferences %}
-        <h1>User Preferences:</h1>
-        <p>{{ preferences }}</p>
-    {% else %}
-        <p>No preferences set.</p>
-    {% endif %}
+    <div>
+        {% if user %}
+        <h1> Hello {{ user.name }} </h1>
+        {% else %}
+        <h1> Hello </h1>
+        {% endif %}
+    </div>
+    <div id = "links">
+        {% if user %}
+        <a id = "profile-link" href = "{{url_for('get_profile')}}"> View Profile </a>
+        <br>
+        <a id = "logout-link" href = "{{url_for('get_logout')}}"> Log Out </a>
+        {% else %}
+        <a id = "login-link" href = "{{url_for('get_login')}}"> Log In </a>
+        <br>
+        <a id = "signup-link" href = "{{url_for('get_signup')}}"> Sign Up </a>
+        {% endif %}
+        
+
+    </div>
 </body>
 </html>
