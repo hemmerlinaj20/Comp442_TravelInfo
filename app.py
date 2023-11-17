@@ -145,10 +145,6 @@ def search():
     return jsonify(result)
 
 
-
-
-
-
 @app.route("/flightsearch", methods=["GET", "POST"])
 def flightsearch():
     RAPIDAPI_KEY = "f34f0f10c2msh6855d6d77950b00p18a515jsn9e45dbeb030f"
