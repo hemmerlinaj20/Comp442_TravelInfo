@@ -89,19 +89,12 @@ def logout():
 @app.get('/home')
 def get_home_page():
     # Check if the user is logged in
-    user_id = str(session.get('user_id')) # current user logged in
+    user_id = session.get('user_id') # current user logged in
+    user = User.query.get(user_id)
+    # If user logged in -> give them a personalized page
+    # If not logged in -> generic home page
+    return render_template("index.html", user = user)
     
-    # TODO: check if they are in the database
-    if user_id:
-        # Get user preferences from the database
-        user_id = session['user_id']
-        user = User.query.get(user_id)
-        #preferences = user.preferences if user.preferences else "No preferences set."
-        #return render_template('index.html', preferences=preferences)
-        return render_template("index.html")
-    else:
-        flash('Please log in first', 'warning')
-        return redirect(url_for('get_login'))
     
 # User Preference form
 @app.get('/user_preference')
