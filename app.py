@@ -43,12 +43,17 @@ with app.app_context():
 # Gets the home page (index.html)
 @app.get('/')
 def get_page():
+    return redirect(url_for("get_home"))
+
+# Home page
+@app.get('/home')
+def get_home():
     # Check if the user is logged in
-    # THIS DOES NOT WORK, NEEDS FIXED
-    if 'user_id' in session:
-        return redirect(url_for('get_home_page'))
-    else:
-        return redirect(url_for('get_login'))
+    user_id = session.get('user_id') # current user logged in
+    user = User.query.get(user_id)
+    # If user logged in -> give them a personalized page
+    # If not logged in -> generic home page
+    return render_template("index.html", user = user)
     
 # Gets the login page (login_form.html)
 @app.get('/login')
@@ -67,7 +72,7 @@ def post_login():
             # Log in the user and store their id in the session
             session['user_id'] = user.uid
             # Redirect the user to the home page
-            return redirect(url_for('get_home_page'))
+            return redirect(url_for('get_home'))
         else:
             flash('Invalid email address or password')
             return redirect(url_for('get_login'))
@@ -85,42 +90,7 @@ def logout():
     flash('You have logged out', 'info')
     return redirect(url_for('get_page'))
 
-# Home page
-@app.get('/home')
-def get_home_page():
-    # Check if the user is logged in
-    user_id = session.get('user_id') # current user logged in
-    user = User.query.get(user_id)
-    # If user logged in -> give them a personalized page
-    # If not logged in -> generic home page
-    return render_template("index.html", user = user)
-    
-    
-# User Preference form
-@app.get('/user_preference')
-def get_preference_form():
-    user_preference_form: PreferenceForm = PreferenceForm()
-    return render_template('user_preference_form.html', form = user_preference_form)
-# Post for user preference form
-@app.post('/user_preference')
-def post_preference_form():
-    user_preference_form: PreferenceForm = PreferenceForm()
-    if user_preference_form.validate():
-        # save form data to database with the user
-        user_id = session['user_id']
-        user = User.query.get(user_id)
-        user.preferences = str(user_preference_form.data)
-        db.session.commit()
-        flash('Preferences saved successfully', 'success')
-        # redirect user to home page or recommendation/search page
-        return redirect(url_for('get_home_page'))
-    else:
-        for field,error_msg in user_preference_form.errors.items():
-                flash(f"{field}: {error_msg}")
-    # redirect user to get the form again
-    return redirect(url_for('get_preference_form'))
-
-# Signup form
+# Signup Page
 @app.get('/signup')
 def get_signup():
     signup_form = SignUpForm()
@@ -141,7 +111,7 @@ def post_signup():
         # Sample Return since get_home currently does not work
         # TODO: redirect to home page
         session['user_id'] = user.uid
-        return redirect(url_for('get_home_page'))
+        return redirect(url_for('get_home'))
     else:
         for field,error_msg in signup_form.errors.items():
                 flash(f"{field}: {error_msg}")
