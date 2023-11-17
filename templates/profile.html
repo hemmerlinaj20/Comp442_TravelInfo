@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <div>
+        <h1> {{user.name}} </h1>
+    </div>
+    <div>
+        <p>
+            Email: {{user.email}}
+        </p>
+        {% if user.premium == "Y" %}
+        <p> 
+            Premium User <a href = "{{url_for(get_change_premium)}}"> Unsubscribe </a>
+        </p>
+        {% else %}
+        <p>
+            Sign Up for Premium <a href = "{{url_for(get_change_premium)}}"> Subscribe </a>
+        </p>
+        <p>
+            <a href = "{{url_for(get_change_password)}}"> Change Password </a>
+        </p>
+    </div>
+</body>
+</html>

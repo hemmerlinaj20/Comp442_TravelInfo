@@ -114,6 +114,12 @@ def post_signup():
                 flash(f"{field}: {error_msg}")
     return redirect(url_for('get_signup'))
 
+app.get('/profile')
+def get_profile():
+    user_id: int = session.get('user_id') # current user logged in (I think its an int, but might be a str)
+    user: User = User.query.get(user_id)
+    return render_template('profile.html', user = user)
+
 # API endpoint for dynamic search
 @app.route('/search', methods=['POST'])
 def search():
