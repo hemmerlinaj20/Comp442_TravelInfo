@@ -47,8 +47,8 @@ def get_page():
 @app.get('/home')
 def get_home():
     # Check if the user is logged in
-    user_id = session.get('user_id') # current user logged in
-    user = User.query.get(user_id)
+    user_id: int = session.get('user_id') # current user logged in (I think its an int, but might be a str)
+    user: User = User.query.get(user_id)
     # If user logged in -> give them a personalized page
     # If not logged in -> generic home page
     return render_template("index.html", user = user)
@@ -91,14 +91,14 @@ def get_logout():
 # Signup Page
 @app.get('/signup')
 def get_signup():
-    signup_form = SignUpForm()
+    signup_form: SignUpForm = SignUpForm()
     return render_template('signup.html', form = signup_form)
 # Post for signup form
 @app.post('/signup')
 def post_signup():
-    signup_form = SignUpForm()
+    signup_form: SignUpForm = SignUpForm()
     if signup_form.validate():
-        user = User(
+        user: User = User(
             name = signup_form.name.data,
             email = signup_form.email.data,
             password = signup_form.password.data,
