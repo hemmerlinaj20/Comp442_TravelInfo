@@ -7,11 +7,6 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=256)])
     submit = SubmitField("Login")
 
-class PreferenceForm(FlaskForm):
-    travel_dates = StringField("Preferred Travel Dates", validators=[InputRequired()])
-    budget = StringField("Budget", validators=[InputRequired()])
-    submit = SubmitField("Save Preferences")
-
 # Sign Up Form to Register a User
 class SignUpForm(FlaskForm):
     name = StringField("Name", validators = [InputRequired()]) # TODO: put a max length limit

@@ -3,10 +3,9 @@ from flask import Flask, render_template, redirect, url_for, flash
 from flask import request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import LoginForm, PreferenceForm, SignUpForm
+from forms import LoginForm, SignUpForm
 
 # Path to database file
-# TODO: create database models in separate py file
 scriptdir = os.path.dirname(os.path.abspath(__file__))
 dbfile = os.path.join(scriptdir, "vacation_finder.db")
 
@@ -25,7 +24,6 @@ class User(db.Model):
     email = db.Column(db.Unicode, nullable=False)
     password = db.Column(db.Unicode, nullable = False)
     premium = db.Column(db.Unicode, nullable = False) # TODO: Make this an enum "Y" or "N"
-    #preferences = db.Column(db.Unicode, nullable=True)
 
 # Create database tables
 with app.app_context():
@@ -67,7 +65,7 @@ def post_login():
     if login_form.validate():
         # Retrieve the user from the database based on the provided email
         user = User.query.filter_by(email=login_form.email.data).first()
-        # TODO: NEEDS FIXED
+        # TODO: Needs updated to hashed password
         if user is not None and user.password == login_form.password.data:
             # Log in the user and store their id in the session
             session['user_id'] = user.uid
@@ -108,8 +106,7 @@ def post_signup():
         )
         db.session.add(user)
         db.session.commit()
-        # Sample Return since get_home currently does not work
-        # TODO: redirect to home page
+        # log user in and redirect to home page
         session['user_id'] = user.uid
         return redirect(url_for('get_home'))
     else:
