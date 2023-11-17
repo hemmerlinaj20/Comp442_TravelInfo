@@ -27,12 +27,15 @@
         <a id = "profile-link" href = "{{url_for('get_profile')}}"> View Profile </a>
         <br>
         <a id = "logout-link" href = "{{url_for('get_logout')}}"> Log Out </a>
+        <br>
         {% else %}
         <a id = "login-link" href = "{{url_for('get_login')}}"> Log In </a>
         <br>
         <a id = "signup-link" href = "{{url_for('get_signup')}}"> Sign Up </a>
+        <br>
         {% endif %}
-
+        <a id = "flight-search-link" href = "{{url_for('flightsearch')}}"> Search Flights </a>
+        <br>
     </div>
 </body>
 </html>
