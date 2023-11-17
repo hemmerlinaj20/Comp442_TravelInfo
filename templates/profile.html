@@ -4,31 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+    rel="stylesheet" crossorigin="anonymous"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9">
+
+    <script defer crossorigin="anonymous"
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"></script>
+
 </head>
 <body>
     <div>
         <h1> {{user.name}} </h1>
-        <p> <a href = "{{url_for('get_change_name')}}"> Change Name </a> </p>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change-name-modal">
+            Change Name
+        </button>
     </div>
     <div>
         <p>
-            Email: {{user.email}} <a href = "{{url_for('get_change_email')}}"> Change Email </a>
+            Email: {{user.email}}
+            <br>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change-email-modal">
+                Change Email
+            </button>
         </p>
         {% if user.premium == "Y" %}
         <p> 
-            Premium User <a href = "{{url_for('get_change_premium')}}"> Unsubscribe </a>
+            Premium User
+            <br>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change-premium-modal">
+                Unsubscribe
+            </button>
         </p>
         {% else %}
         <p>
-            Sign Up for Premium <a href = "{{url_for('get_change_premium')}}"> Subscribe </a>
+            Sign Up for Premium
+            <br>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change-premium-modal">
+                Subscribe
+            </button>
         </p>
         {% endif %}
         <p>
-            <a href = "{{url_for('get_change_password')}}"> Change Password </a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change-name-modal">
+                Change Password
+            </button>
         </p>
         <p>
             <a href = "{{url_for('get_home')}}"> Home </a>
         </p>
+    </div>
+
+    <!-- Modals (Hidden) -->
+    <!-- Change Name Modal -->
+    <div class="modal fade" id="change-name-modal" tabindex="-1" aria-labelledby="change-name-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="change-name-modal-label">Change Name</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Make form here
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Change Email Modal -->
+    <div class="modal fade" id="change-email-modal" tabindex="-1" aria-labelledby="change-email-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="change-email-modal-label">Change Email</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Make form here
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Change Premium Modal -->
+    <div class="modal fade" id="change-premium-modal" tabindex="-1" aria-labelledby="change-premium-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="change-premium-modal-label">Premium</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Make form here
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="change-password-modal" tabindex="-1" aria-labelledby="change-password-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="change-password-modal-label">Change Password</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Make form here
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
