@@ -123,8 +123,7 @@ def get_profile():
 @app.post('/change_name')
 def post_change_name():
     user: User = User.query.get(session.get('user_id'))
-    new_name = request.form.get("name")
-    user.name = new_name
+    user.name = request.form.get("name")
     db.session.commit()
     return redirect(url_for('get_profile'))
 
