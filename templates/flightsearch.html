@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="container">
+          <div id="error-messages">
+            {% for msg in get_flashed_messages() %}
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ msg }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+    </div>
+
+
+    <h1>Flight Search</h1>
+    <form method="POST" action="{{ url_for('flightsearch') }}">
+        {{ form.hidden_tag() }}
+
+        <label for="fromId">From Airport:</label>
+        <input type="text" id="fromId" name="fromId" required><br>
+
+        <label for="toId">To Airport:</label>
+        <input type="text" id="toId" name="toId" required><br>
+
+        <label for="departDate">Departure Date:</label>
+        <input type="date" id="departDate" name="departDate" required><br>
+
+        <label for="returnDate">Return Date:</label>
+        <input type="date" id="returnDate" name="returnDate"><br>
+
+        <label for="adults">Number of Adults:</label>
+        <input type="number" id="adults" name="adults" value="1" required><br>
+
+        <label for="sort">Sort by:</label>
+        <select id="sort" name="sort">
+            <option value="BEST">Best</option>
+            <option value="CHEAPEST">Cheapest</option>
+            <option value="FASTEST">Fastest</option>
+        </select><br>
+
+        <button type="submit">Search</button>
+    </form>
+
+</body>
+</html>

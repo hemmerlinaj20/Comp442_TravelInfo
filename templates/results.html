@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Flight Search Results</h1>
+    <table>
+        <tr>
+            <th>Departure City</th>
+            <th>Arrival City</th>
+            <th>Departure Time</th>
+            <th>Arrival Time</th>
+            <th>Price</th>
+            <th>Price (Units)</th>
+            <!-- <th>Carrier</th> -->
+        </tr>
+        {% for flight in flights %}
+            <tr>
+                <td>{{ flight.airport_start }}</td>
+                <td>{{ flight.airport_end }}</td>
+                <td>{{ flight.start }}</td>
+                <td>{{ flight.end }}</td>
+                <td>{{ flight.price}}</td>
+                <td>{{ flight.price_units }}</td>
+                <!-- <td>{{ flight.carrier }}</td> -->
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
