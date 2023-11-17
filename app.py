@@ -114,7 +114,7 @@ def post_signup():
                 flash(f"{field}: {error_msg}")
     return redirect(url_for('get_signup'))
 
-app.get('/profile')
+@app.get('/profile')
 def get_profile():
     user_id: int = session.get('user_id') # current user logged in (I think its an int, but might be a str)
     user: User = User.query.get(user_id)
