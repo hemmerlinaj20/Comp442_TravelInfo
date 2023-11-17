@@ -120,6 +120,22 @@ def get_profile():
     user: User = User.query.get(user_id)
     return render_template('profile.html', user = user)
 
+@app.get('/change_premium')
+def get_change_premium():
+    return "Not Implemented Yet"
+
+@app.get('/change_password')
+def get_change_password():
+    return "Not Implemented Yet"
+
+@app.get('/change_email')
+def get_change_email():
+    return "Not Implemented Yet"
+
+@app.get('/change_name')
+def get_change_name():
+    return "Not Implemented Yet"
+
 # API endpoint for dynamic search
 @app.route('/search', methods=['POST'])
 def search():
