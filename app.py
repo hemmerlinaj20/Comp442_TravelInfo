@@ -120,6 +120,11 @@ def get_profile():
     user: User = User.query.get(user_id)
     return render_template('profile.html', user = user)
 
+@app.post('/change_name')
+def post_change_name():
+    user: User = User.query.get(session.get('user_id'))
+    return "Not implemented yet"
+
 @app.post('/change_premium')
 def post_change_premium():
     return "Not Implemented Yet"
@@ -130,10 +135,6 @@ def post_change_password():
 
 @app.post('/change_email')
 def post_change_email():
-    return "Not Implemented Yet"
-
-@app.post('/change_name')
-def post_change_name():
     return "Not Implemented Yet"
 
 # API endpoint for dynamic search

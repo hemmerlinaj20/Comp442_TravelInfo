@@ -66,7 +66,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Make form here
+                    <form id="change-name" method="post" action="{{url_for('post_change_name')}}" class="mx-auto my-4 w-50">
+                        <div class="form-group">
+                            <label for="name-input">New Name: </label>
+                            <input id="name-input" type="string" class="form-control" name="name" required />
+                        </div>
+                        <input type="submit" value="Register" class="form-control btn btn-primary" />
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -74,6 +80,7 @@
             </div>
         </div>
     </div>
+    
     <!-- Change Email Modal -->
     <div class="modal fade" id="change-email-modal" tabindex="-1" aria-labelledby="change-email-modal-label" aria-hidden="true">
         <div class="modal-dialog">
