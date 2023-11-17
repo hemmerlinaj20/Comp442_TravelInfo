@@ -85,7 +85,7 @@ def post_login():
 def get_logout():
     # Clear the session and redirect to the home page
     session.clear()
-    flash('You have logged out', 'info')
+    #flash('You have logged out', 'info')
     return redirect(url_for('get_home'))
 
 # Signup Page
