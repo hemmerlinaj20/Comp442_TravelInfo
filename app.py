@@ -138,6 +138,7 @@ def post_change_premium():
 def post_change_password():
     return "Not Implemented Yet"
 
+# Needs JS validation
 @app.post('/change_email')
 def post_change_email():
     user: User = User.query.get(session.get('user_id'))
