@@ -98,18 +98,22 @@ def get_signup():
 def post_signup():
     signup_form: SignUpForm = SignUpForm()
     if signup_form.validate():
-        # TODO: CHECK IF THIS EMAIL IS ALREADY IN THE DATABASE
-        user: User = User(
-            name = signup_form.name.data,
-            email = signup_form.email.data,
-            password = signup_form.password.data,
-            premium = signup_form.premium.data
-        )
-        db.session.add(user)
-        db.session.commit()
-        # log user in and redirect to home page
-        session['user_id'] = user.uid
-        return redirect(url_for('get_home'))
+        # Checks if the email address is already taken
+        if User.query.filter_by(email = signup_form.email.data).all() is None:
+            user: User = User(
+                name = signup_form.name.data,
+                email = signup_form.email.data,
+                password = signup_form.password.data,
+                premium = signup_form.premium.data
+            )
+            db.session.add(user)
+            db.session.commit()
+            # log user in and redirect to home page
+            session['user_id'] = user.uid
+            return redirect(url_for('get_home'))
+        else:
+            flash("There is already a user with this email address","error")
+            return redirect(url_for('get_signup'))
     else:
         for field,error_msg in signup_form.errors.items():
                 flash(f"{field}: {error_msg}")
