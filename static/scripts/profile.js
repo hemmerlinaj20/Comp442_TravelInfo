@@ -63,5 +63,5 @@ function validateConfirmNewPassword(){
     const confirmPassword = confirmNewPasswordField.value;
 
     const msg = confirmPassword === newPassword ? "" : "Password does not match";
-    confirmField.setCustomValidity(msg);
+    confirmNewPasswordField.setCustomValidity(msg);
 }
