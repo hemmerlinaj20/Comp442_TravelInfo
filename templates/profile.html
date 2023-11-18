@@ -13,7 +13,9 @@
 </head>
 <body>
     <div class="profile-container">
-        <h1 class="profile-heading">{{user.name}} - {{user.email}}</h1>
+        <h1 class="profile-heading"><strong>{{user.name}}</strong></h1>
+        <h2 class="profile-heading">{{user.email}}</h2>
+        <hr>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change-name-modal">
             Change Name
         </button>
@@ -42,11 +44,12 @@
                     Change Password
                 </button>
             </p>
-            <p>
-                <a href="{{url_for('get_home')}}"> Home </a>
-            </p>
         </div>
     </div>
+
+    <p>
+        <a href="{{url_for('get_home')}}"> Home </a>
+    </p>
 
     <!-- Modals (Hidden until buttons clicked) -->
     <!-- Change Name Modal -->
