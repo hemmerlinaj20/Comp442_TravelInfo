@@ -129,7 +129,10 @@ def post_change_name():
 
 @app.post('/change_premium')
 def post_change_premium():
-    return "Not Implemented Yet"
+    user: User = User.query.get(session.get('user_id'))
+    user.premium = request.form.get("premium")
+    db.session.commit()
+    return redirect(url_for('get_profile'))
 
 @app.post('/change_password')
 def post_change_password():
@@ -137,7 +140,10 @@ def post_change_password():
 
 @app.post('/change_email')
 def post_change_email():
-    return "Not Implemented Yet"
+    user: User = User.query.get(session.get('user_id'))
+    user.email = request.form.get("email")
+    db.session.commit()
+    return redirect(url_for('get_profile'))
 
 # API endpoint for dynamic search
 @app.route('/search', methods=['POST'])

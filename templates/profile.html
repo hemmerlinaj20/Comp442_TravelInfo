@@ -90,7 +90,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Make form here
+                    <form id="change-email" method="post" action="{{url_for('post_change_email')}}" class="mx-auto my-4 w-50">
+                        <div class="form-group">
+                            <label for="email-input">New Email: </label>
+                            <input id="email-input" type="string" class="form-control" name="email" required />
+                        </div>
+                        <input type="submit" value="Register" class="form-control btn btn-primary" />
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -107,7 +113,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Make form here
+                    <form id="change-premium" method="post" action="{{url_for('post_change_premium')}}" class="mx-auto my-4 w-50">
+                        <div class="form-group">
+                            {% if user.premium == "Y" %}
+                            <label for="premium-input"> Unsubscribe From Premium? </label>
+                            <select name = "premium" id = "change-premium-input">
+                                <option value = "N"> Yes </option>
+                                <option value = "Y"> No </option>
+                            </select>
+                            {% else %}
+                            <label for="premium-input"> Subscribe to Premium! </label>
+                            <select name = "premium" id = "change-premium-input">
+                                <option value = "Y"> Yes </option>
+                                <option value = "N"> No </option>
+                            </select>
+                            {% endif %}
+                        </div>
+                        <input type="submit" value="Register" class="form-control btn btn-primary" />
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
