@@ -64,9 +64,9 @@
                     <form id="change-name" method="post" action="{{url_for('post_change_name')}}" class="mx-auto my-4 w-50">
                         <div class="form-group">
                             <label for="name-input">New Name: </label>
-                            <input id="name-input" type="string" class="form-control" name="name" required />
+                            <input id="name-input" type="text" class="form-control" name="name" required>
                         </div>
-                        <input type="submit" value="Register" class="form-control btn btn-primary" />
+                        <input type="submit" value="Register" class="form-control btn btn-primary">
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -88,9 +88,9 @@
                     <form id="change-email" method="post" action="{{url_for('post_change_email')}}" class="mx-auto my-4 w-50">
                         <div class="form-group">
                             <label for="email-input">New Email: </label>
-                            <input id="email-input" type="string" class="form-control" name="email" required />
+                            <input id="email-input" type="text" class="form-control" name="email" required>
                         </div>
-                        <input type="submit" value="Register" class="form-control btn btn-primary" />
+                        <input type="submit" value="Register" class="form-control btn btn-primary">
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -112,19 +112,19 @@
                         <div class="form-group">
                             {% if user.premium == "Y" %}
                             <label for="premium-input"> Unsubscribe From Premium? </label>
-                            <select name = "premium" id = "change-premium-input">
+                            <select name = "premium" id = "premium-input" class = "form-control">
                                 <option value = "N"> Yes </option>
                                 <option value = "Y"> No </option>
                             </select>
                             {% else %}
                             <label for="premium-input"> Subscribe to Premium! </label>
-                            <select name = "premium" id = "change-premium-input">
+                            <select name = "premium" id = "premium-input" class = "form-control">
                                 <option value = "Y"> Yes </option>
                                 <option value = "N"> No </option>
                             </select>
                             {% endif %}
                         </div>
-                        <input type="submit" value="Register" class="form-control btn btn-primary" />
+                        <input type="submit" value="Register" class="form-control btn btn-primary">
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -145,17 +145,17 @@
                     <form id="change-password" method="post" action="{{url_for('post_change_password')}}" class="mx-auto my-4 w-50">
                         <div class="form-group">
                             <label for="old-password-input">Old Password: </label>
-                            <input id="old-password-input" type="password" class="form-control" name="old-password" required />
+                            <input id="old-password-input" type="password" class="form-control" name="old-password" required>
                         </div>
                         <div class="form-group">
                             <label for="new-password-input">New Password: </label>
-                            <input id="new-password-input" type="password" class="form-control" name="new-password" required />
+                            <input id="new-password-input" type="password" class="form-control" name="new-password" required>
                         </div>
                         <div class="form-group">
                             <label for="confirm-new-password-input">Confirm New Password: </label>
-                            <input id="confirm-new-password-input" type="password" class="form-control" name="confirm-new-password" required />
+                            <input id="confirm-new-password-input" type="password" class="form-control" name="confirm-new-password" required>
                         </div>
-                        <input type="submit" value="Register" class="form-control btn btn-primary" />
+                        <input type="submit" value="Register" class="form-control btn btn-primary">
                     </form>
                 </div>
                 <div class="modal-footer">
