@@ -27,9 +27,9 @@ class User(db.Model):
 
 # Create database tables
 with app.app_context():
-    db.drop_all() # for testing, will remove later
+    db.drop_all() # TESTING - REMOVE LATER
     db.create_all()
-    # users for testing purposes, delete later
+    # DUMMY USERS FOR TESTING - DELETE LATER
     user1 = User(name = "Bob", email = "hi@gmail.com", password = "12345678", premium = "N")
     user2 = User(name = "Joe", email = "hey@gmail.com", password = "00000000", premium = "Y")
     db.session.add(user1)
@@ -38,7 +38,7 @@ with app.app_context():
 
 # TODO: add hasher stuff for password saving
 
-# Gets the home page (index.html)
+# Base route to redirect to home page
 @app.get('/')
 def get_page():
     return redirect(url_for("get_home"))
@@ -46,8 +46,9 @@ def get_page():
 # Home page
 @app.get('/home')
 def get_home():
-    # Check if the user is logged in
-    user_id: int = session.get('user_id') # current user logged in (I think its an int, but might be a str)
+    # Checks who is logged in (if anyone)
+    user_id: int = session.get('user_id')
+    # finds that user in the database (or None)
     user: User = User.query.get(user_id)
     # If user logged in -> give them a personalized page
     # If not logged in -> generic home page
@@ -65,13 +66,14 @@ def post_login():
     if login_form.validate():
         # Retrieve the user from the database based on the provided email
         user = User.query.filter_by(email=login_form.email.data).first()
-        # TODO: Needs updated to hashed password
+        # TODO: NEEDS UPDATED TO HASHED PASSWORDS
         if user is not None and user.password == login_form.password.data:
             # Log in the user and store their id in the session
             session['user_id'] = user.uid
             # Redirect the user to the home page
             return redirect(url_for('get_home'))
         else:
+            # flash error and get form again
             flash('Invalid email address or password')
             return redirect(url_for('get_login'))
     else:
@@ -85,7 +87,8 @@ def post_login():
 def get_logout():
     # Clear the session and redirect to the home page
     session.clear()
-    #flash('You have logged out', 'info')
+    # TODO: MAKE THE ERROR MESSAGE DISMISSABLE (NOT WORKING FOR SOME REASON)
+    flash('You have logged out', 'info')
     return redirect(url_for('get_home'))
 
 # Signup Page
@@ -121,8 +124,9 @@ def post_signup():
 
 @app.get('/profile')
 def get_profile():
-    user_id: int = session.get('user_id') # current user logged in (I think its an int, but might be a str)
-    user: User = User.query.get(user_id)
+    user_id: int = session.get('user_id')
+    user: User = User.query.get(user_id) # current user logged in
+    # Render this user's profile information
     return render_template('profile.html', user = user)
 
 @app.post('/change_name')
@@ -150,7 +154,6 @@ def post_change_password():
         flash("Invalid Password","error")
         return redirect(url_for('get_profile'))
 
-# Needs JS validation
 @app.post('/change_email')
 def post_change_email():
     user: User = User.query.get(session.get('user_id'))

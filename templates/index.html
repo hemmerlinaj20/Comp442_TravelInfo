@@ -12,6 +12,16 @@
     <link rel="stylesheet" href="/static/stylesheets/index.css">
 </head>
 <body>
+    <!-- Allows for flashed messages to be shown -->
+    <div id="error-messages">
+        {% for msg in get_flashed_messages() %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+    </div>
+
     <div class="page-container">
         <div class="content-container">
             {% if user %}
