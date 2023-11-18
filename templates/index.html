@@ -9,33 +9,32 @@
     rel="stylesheet" crossorigin="anonymous"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9">
 
-    <script defer crossorigin="anonymous"
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"></script>
-
+    <link rel="stylesheet" href="/static/stylesheets/index.css">
 </head>
 <body>
-    <div>
-        {% if user %}
-        <h1> Hello {{ user.name }} </h1>
-        {% else %}
-        <h1> Hello </h1>
-        {% endif %}
-    </div>
-    <div id = "links">
-        {% if user %}
-        <a id = "profile-link" href = "{{url_for('get_profile')}}"> View Profile </a>
-        <br>
-        <a id = "logout-link" href = "{{url_for('get_logout')}}"> Log Out </a>
-        <br>
-        {% else %}
-        <a id = "login-link" href = "{{url_for('get_login')}}"> Log In </a>
-        <br>
-        <a id = "signup-link" href = "{{url_for('get_signup')}}"> Sign Up </a>
-        <br>
-        {% endif %}
-        <a id = "flight-search-link" href = "{{url_for('flightsearch')}}"> Search Flights </a>
-        <br>
+    <div class="page-container">
+        <div class="content-container">
+            {% if user %}
+            <h1>Welcome, {{ user.name }}!</h1>
+            {% else %}
+            <h1>Welcome to Vacation Finder</h1>
+            {% endif %}
+        </div>
+        <div id="links" class="text-center mt-4">
+            {% if user %}
+            <a class="btn btn-primary" href="{{url_for('get_profile')}}">View Profile</a>
+            <br>
+            <a class="btn btn-danger" href="{{url_for('get_logout')}}">Log Out</a>
+            <br>
+            {% else %}
+            <a class="btn btn-success" href="{{url_for('get_login')}}">Log In</a>
+            <br>
+            <a class="btn btn-info" href="{{url_for('get_signup')}}">Sign Up</a>
+            <br>
+            {% endif %}
+            <a class="btn btn-warning" href="{{url_for('flightsearch')}}">Search Flights</a>
+            <br>
+        </div>
     </div>
 </body>
 </html>
