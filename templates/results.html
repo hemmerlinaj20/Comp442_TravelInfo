@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Search Results</title>
 </head>
 <body>
     <h1>Flight Search Results</h1>
@@ -14,7 +14,6 @@
             <th>Departure Time</th>
             <th>Arrival Time</th>
             <th>Price</th>
-            <th>Price (Units)</th>
             <!-- <th>Carrier</th> -->
         </tr>
         {% for flight in flights %}
@@ -23,8 +22,7 @@
                 <td>{{ flight.airport_end }}</td>
                 <td>{{ flight.start }}</td>
                 <td>{{ flight.end }}</td>
-                <td>{{ flight.price}}</td>
-                <td>{{ flight.price_units }}</td>
+                <td>{{ flight.price}} {{ flight.price_units }}</td>
                 <!-- <td>{{ flight.carrier }}</td> -->
             </tr>
         {% endfor %}
