@@ -109,13 +109,13 @@
                         <div class="form-group">
                             {% if user.premium == "Y" %}
                             <label for="premium-input"> Unsubscribe From Premium? </label>
-                            <select name = "premium" id = "change-premium-input">
+                            <select name = "premium" id = "premium-input" class = "form-control">
                                 <option value = "N"> Yes </option>
                                 <option value = "Y"> No </option>
                             </select>
                             {% else %}
                             <label for="premium-input"> Subscribe to Premium! </label>
-                            <select name = "premium" id = "change-premium-input">
+                            <select name = "premium" id = "premium-input" class = "form-control">
                                 <option value = "Y"> Yes </option>
                                 <option value = "N"> No </option>
                             </select>
@@ -150,7 +150,7 @@
                         </div>
                         <div class="form-group">
                             <label for="confirm-new-password-input">Confirm New Password: </label>
-                            <input id="confirm-new-password-input" type="password" class="form-control" name="confirm-new-password" required />
+                            <input id="confirm-new-password-input" type="password" class="form-control" name="confirm-new-password" required>
                         </div>
                         <input type="submit" value="Register" class="form-control btn btn-primary">
                     </form>
