@@ -141,13 +141,13 @@ def post_change_premium():
 
 @app.post('/change_password')
 def post_change_password():
-    # TODO: CHECKING IF OLD PASSWORD AND NEW PASSWORD MATCH DOES NOT WORK
     user: User = User.query.get(session.get('user_id'))
     if user.password == request.form.get("old-password"):
         user.password = request.form.get("new-password")
         db.session.commit()
         return redirect(url_for('get_profile'))
     else:
+        # TODO: ERROR MESSAGES NOT FLASHING PROPERLY
         flash("Invalid Password","error")
         return redirect(url_for('get_profile'))
 
