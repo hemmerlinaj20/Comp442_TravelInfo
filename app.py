@@ -7,7 +7,7 @@ from forms import LoginForm, SignUpForm, FlightSearchForm
 
 # Path to database file
 scriptdir = os.path.dirname(os.path.abspath(__file__))
-dbfile = os.path.join(scriptdir, "vacation_finder.db")
+dbfile = os.path.join(scriptdir, "vacation_finder.sqlite3")
 
 # Setup and Config
 app = Flask(__name__)
