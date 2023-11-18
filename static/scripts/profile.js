@@ -15,6 +15,7 @@ window.addEventListener("DOMContentLoaded", async => {
 
     const newPasswordField = document.getElementById("new-password-input");
     newPasswordField.addEventListener("input", validateNewPassword);
+    newPasswordField.addEventListener("input", validateConfirmNewPassword);
 
     const confirmNewPasswordField = document.getElementById("confirm-new-password-input");
     confirmNewPasswordField.addEventListener("input", validateConfirmNewPassword);

@@ -147,7 +147,6 @@ def post_change_password():
         db.session.commit()
         return redirect(url_for('get_profile'))
     else:
-        # TODO: ERROR MESSAGES NOT FLASHING PROPERLY
         flash("Invalid Password","error")
         return redirect(url_for('get_profile'))
 
