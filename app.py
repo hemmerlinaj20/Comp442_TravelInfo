@@ -98,6 +98,7 @@ def get_signup():
 def post_signup():
     signup_form: SignUpForm = SignUpForm()
     if signup_form.validate():
+        # TODO: CHECK IF THIS EMAIL IS ALREADY IN THE DATABASE
         user: User = User(
             name = signup_form.name.data,
             email = signup_form.email.data,
@@ -136,10 +137,15 @@ def post_change_premium():
 
 @app.post('/change_password')
 def post_change_password():
+    # TODO: CHECKING IF OLD PASSWORD AND NEW PASSWORD MATCH DOES NOT WORK
     user: User = User.query.get(session.get('user_id'))
-    user.password = request.form.get("new-password")
-    db.session.commit()
-    return redirect(url_for('get_profile'))
+    if user.password == request.form.get("old-password"):
+        user.password = request.form.get("new-password")
+        db.session.commit()
+        return redirect(url_for('get_profile'))
+    else:
+        flash("Invalid Password","error")
+        return redirect(url_for('get_profile'))
 
 # Needs JS validation
 @app.post('/change_email')
