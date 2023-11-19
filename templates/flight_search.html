@@ -10,6 +10,8 @@
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9">
 
     <link rel="stylesheet" href="/static/stylesheets/flightsearch.css">
+    <!-- Link to JavaScript File -->
+    <script src="static/scripts/flight_search.js"></script>
 </head>
 <body>
     <div class="page-container">
@@ -29,26 +31,32 @@
         {{ form.hidden_tag() }}
 
         <label for="fromId">From Airport:</label>
-        <input type="text" id="fromId" name="fromId" required><br>
+        <input type="text" id="fromId" name="fromId" required>
+        <br>
 
         <label for="toId">To Airport:</label>
-        <input type="text" id="toId" name="toId" required><br>
+        <input type="text" id="toId" name="toId" required>
+        <br>
 
         <label for="departDate">Departure Date:</label>
-        <input type="date" id="departDate" name="departDate" required><br>
+        <input type="date" id="departDate" name="departDate" required>
+        <br>
 
         <label for="returnDate">Return Date:</label>
-        <input type="date" id="returnDate" name="returnDate"><br>
+        <input type="date" id="returnDate" name="returnDate">
+        <br>
 
         <label for="adults">Number of Adults:</label>
-        <input type="number" id="adults" name="adults" value="1" required><br>
+        <input type="number" id="adults" name="adults" value="1" required>
+        <br>
 
         <label for="sort">Sort by:</label>
         <select id="sort" name="sort">
             <option value="BEST">Best</option>
             <option value="CHEAPEST">Cheapest</option>
             <option value="FASTEST">Fastest</option>
-        </select><br>
+        </select>
+        <br>
 
         <button type="submit">Search</button>
     </form>
@@ -56,7 +64,6 @@
   </div>
     <p>
       <a href="{{url_for('get_home')}}"> Home </a>
-  </p>
-
+    </p>
 </body>
 </html>

@@ -241,5 +241,5 @@ def flightsearch():
                     flights=flights
                 )
     # Render the form page
-    return render_template("flightsearch.html", form=form)
+    return render_template("flight_search.html", form=form)
    
