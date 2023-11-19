@@ -10,6 +10,7 @@ from hasher import Hasher
 scriptdir = os.path.dirname(os.path.abspath(__file__))
 dbfile = os.path.join(scriptdir, "vacation_finder.sqlite3")
 
+# Create the hasher to hash the passwords with the pepper
 hasher = Hasher(open(f"{scriptdir}/static/pepper.bin", "r").read())
 
 # Setup and Config
