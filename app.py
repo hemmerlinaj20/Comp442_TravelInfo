@@ -4,10 +4,13 @@ from flask import request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import requests
 from forms import LoginForm, SignUpForm, FlightSearchForm
+from hasher import Hasher
 
 # Path to database file
 scriptdir = os.path.dirname(os.path.abspath(__file__))
 dbfile = os.path.join(scriptdir, "vacation_finder.sqlite3")
+
+hasher = Hasher(open(f"{scriptdir}/static/pepper.bin", "r").read())
 
 # Setup and Config
 app = Flask(__name__)
@@ -22,7 +25,7 @@ class User(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode, nullable = False)
     email = db.Column(db.Unicode, nullable=False)
-    password = db.Column(db.Unicode, nullable = False)
+    password_hash = db.Column(db.Unicode, nullable = False)
     premium = db.Column(db.Unicode, nullable = False) # TODO: Make this an enum "Y" or "N"
 
 # Create database tables
@@ -30,13 +33,11 @@ with app.app_context():
     db.drop_all() # TESTING - REMOVE LATER
     db.create_all()
     # DUMMY USERS FOR TESTING - DELETE LATER
-    user1 = User(name = "Bob", email = "hi@gmail.com", password = "12345678", premium = "N")
-    user2 = User(name = "Joe", email = "hey@gmail.com", password = "00000000", premium = "Y")
+    user1 = User(name = "Bob", email = "hi@gmail.com", password_hash = hasher.hash("12345678"), premium = "N")
+    user2 = User(name = "Joe", email = "hey@gmail.com", password_hash = hasher.hash("00000000"), premium = "Y")
     db.session.add(user1)
     db.session.add(user2)
     db.session.commit()
-
-# TODO: add hasher stuff for password saving
 
 # Base route to redirect to home page
 @app.get('/')
@@ -66,8 +67,8 @@ def post_login():
     if login_form.validate():
         # Retrieve the user from the database based on the provided email
         user = User.query.filter_by(email=login_form.email.data).first()
-        # TODO: NEEDS UPDATED TO HASHED PASSWORDS
-        if user is not None and user.password == login_form.password.data:
+        # Check if password is correct
+        if user is not None and hasher.check(login_form.password.data, user.password_hash):
             # Log in the user and store their id in the session
             session['user_id'] = user.uid
             # Redirect the user to the home page
@@ -102,11 +103,11 @@ def post_signup():
     signup_form: SignUpForm = SignUpForm()
     if signup_form.validate():
         # Checks if the email address is already taken
-        if User.query.filter_by(email = signup_form.email.data).all() is None:
+        if User.query.filter_by(email = signup_form.email.data).first() is None:
             user: User = User(
                 name = signup_form.name.data,
                 email = signup_form.email.data,
-                password = signup_form.password.data,
+                password_hash = hasher.hash(signup_form.password.data),
                 premium = signup_form.premium.data
             )
             db.session.add(user)
@@ -146,8 +147,8 @@ def post_change_premium():
 @app.post('/change_password')
 def post_change_password():
     user: User = User.query.get(session.get('user_id'))
-    if user.password == request.form.get("old-password"):
-        user.password = request.form.get("new-password")
+    if hasher.check(request.form.get("old-password"), user.password_hash):
+        user.password_hash = hasher.hash(request.form.get("new-password"))
         db.session.commit()
         return redirect(url_for('get_profile'))
     else:
