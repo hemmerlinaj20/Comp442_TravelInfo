@@ -204,8 +204,8 @@ def flightsearch():
             "sort": str(sort),
             "currency_code":"USD",
         }
-        print("yooo77nn")
-        print("API Request Params:", params)
+        #print("yooo77nn")
+        #print("API Request Params:", params)
 
         response = requests.get(RAPIDAPI_BASE_URL, headers=headers, params=params)
         result = response.json()
@@ -235,7 +235,7 @@ def flightsearch():
                 "price": price,
                 
             })
-            print("yooonn0000000000000")
+            #print("yooonn0000000000000")
         return render_template(
                     "results.html",
                     flights=flights
