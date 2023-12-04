@@ -212,6 +212,7 @@ def flightsearch():
         
 
         #if "data" in result and "flightOffers" in result["data"]:
+        # If none the server breaks (I think)
         flight_data = result["data"]["flightOffers"]
 
         # Extracted data to pass to template
