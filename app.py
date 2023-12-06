@@ -209,38 +209,37 @@ def flightsearch():
 
         response = requests.get(RAPIDAPI_BASE_URL, headers=headers, params=params)
         result = response.json()
-        
 
-        #if "data" in result and "flightOffers" in result["data"]:
-        # If none the server breaks (I think)
-        flight_data = result["data"]["flightOffers"]
+        # if "data" in result and "flightOffers" in result["data"]:
+        flight_data = result["data"].get('flightOffers', None)
 
         # Extracted data to pass to template
         flights = []
-        for flight in flight_data:
-            airport_start = flight["segments"][0]["departureAirport"]["cityName"]
-            airport_end = flight["segments"][0]["arrivalAirport"]["cityName"]
-            departureTime = flight['segments'][0]['legs'][0]['departureTime']
-            arrivalTime = flight['segments'][0]['legs'][0]['arrivalTime']
-            min_price_units = flight["priceBreakdown"]["total"]["currencyCode"]
-            price = flight["priceBreakdown"]["total"]["units"]
-            #carrier = flight_data['segments'][0]['legs'][0]['carriersData'][0]['code']
+        if flight_data:
+            for flight in flight_data:
+                airport_start = flight["segments"][0]["departureAirport"]["cityName"]
+                airport_end = flight["segments"][0]["arrivalAirport"]["cityName"]
+                departureTime = flight['segments'][0]['legs'][0]['departureTime']
+                arrivalTime = flight['segments'][0]['legs'][0]['arrivalTime']
+                min_price_units = flight["priceBreakdown"]["total"]["currencyCode"]
+                price = flight["priceBreakdown"]["total"]["units"]
+                #carrier = flight_data['segments'][0]['legs'][0]['carriersData'][0]['code']
 
-
-            flights.append({
-                "airport_start": airport_start,
-                "airport_end": airport_end,
-                "start": departureTime,
-                "end": arrivalTime,
-                "price_units": min_price_units,
-                "price": price,
-                
-            })
-            #print("yooonn0000000000000")
-        return render_template(
-                    "results.html",
-                    flights=flights
-                )
+                flights.append({
+                    "airport_start": airport_start,
+                    "airport_end": airport_end,
+                    "start": departureTime,
+                    "end": arrivalTime,
+                    "price_units": min_price_units,
+                    "price": price,
+                })
+                #print("yooonn0000000000000")
+            return render_template(
+                "results.html",
+                flights=flights
+            )
+        else:
+            flash("No Flights Found")
     # Render the form page
     return render_template("flight_search.html", form=form)
    
