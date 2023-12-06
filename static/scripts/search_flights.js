@@ -1,14 +1,20 @@
+
+
 window.addEventListener("DOMContentLoaded", async ()=>{
+    // Add event listener to the search btn
     const searchBtn = document.getElementById("search-btn");
     searchBtn.addEventListener("click", getFlights);
 });
 
 async function getFlights(){
+    // Get the table body
     const tb = document.getElementById("results-table-body");
+    // Remove previous flights in the table
     while(tb.firstElementChild){
         tb.removeChild(tb.firstElementChild);
     }
 
+    // API connection stuff
     const RAPIDAPI_KEY = "f34f0f10c2msh6855d6d77950b00p18a515jsn9e45dbeb030f"
     const RAPIDAPI_HOST = "booking-com15.p.rapidapi.com"
     const RAPIDAPI_BASE_URL = "https://booking-com15.p.rapidapi.com/api/v1/flights/searchFlights"
@@ -18,6 +24,7 @@ async function getFlights(){
         "X-RapidAPI-Host": RAPIDAPI_HOST,
     }
 
+    // Get the data from the form in the page
     const from_id = document.getElementById("fromId").value;
     const to_id = document.getElementById("toId").value;
     const depart_date = document.getElementById("departDate").value;
@@ -25,16 +32,20 @@ async function getFlights(){
     const adults = document.getElementById("adults").value;
     const sort_by = document.getElementById("sort").value;
 
+    // Construct the URL to get the flight data
     const URL = `${RAPIDAPI_BASE_URL}?fromId=${from_id}&toId=${to_id}&departDate=${depart_date}&returnDate=${return_date}&pageNo=1&adults=${adults}&children=0&sort=${sort_by}&currency_code=USD`
 
+    // Fetch the flight data from the API
     const r = await fetch(URL, {
         method: "GET",
         headers: headers,
     });
 
+    // Validate the JSON
     const data = await validateJSON(r);
     console.log(data);
 
+    // Fill the table with the flights
     for(const flight of data.data.flightOffers){
         const tr = document.createElement("tr");
         insertFlight(tr, flight);
@@ -43,6 +54,7 @@ async function getFlights(){
 }
 
 async function insertFlight(tr, flight){
+    // Create td elements for each aspect of the flight
     const fromTD = document.createElement("td");
     fromTD.innerText = flight.segments[0].departureAirport.cityName;
 
@@ -58,6 +70,7 @@ async function insertFlight(tr, flight){
     const priceTD = document.createElement("td");
     priceTD.innerText = flight.priceBreakdown.total.units;
 
+    // Add the data to the table row
     tr.appendChild(fromTD);
     tr.appendChild(toTD);
     tr.appendChild(depart_timeTD);

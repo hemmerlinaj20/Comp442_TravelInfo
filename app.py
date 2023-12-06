@@ -168,7 +168,9 @@ def post_change_email():
 def search_flights():
     return render_template("search_flights.html")
 
-
+# Deprecated:
+# All elements have been moved into search_flights route and search_flights.js
+# DELETE LATER
 @app.route("/flightsearch", methods=["GET", "POST"])
 def flightsearch():
     RAPIDAPI_KEY = "f34f0f10c2msh6855d6d77950b00p18a515jsn9e45dbeb030f"
