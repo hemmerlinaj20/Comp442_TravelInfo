@@ -163,12 +163,13 @@ def post_change_email():
     db.session.commit()
     return redirect(url_for('get_profile'))
 
-# API endpoint for dynamic search
+# Search Flights route
 @app.get('/search_flights')
 def search_flights():
     return render_template("search_flights.html")
 
-# Deprecated:
+
+# DO NOT USE
 # All elements have been moved into search_flights route and search_flights.js
 # DELETE LATER
 @app.route("/flightsearch", methods=["GET", "POST"])
