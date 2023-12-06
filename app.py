@@ -164,12 +164,12 @@ def post_change_email():
     return redirect(url_for('get_profile'))
 
 # API endpoint for dynamic search
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def search():
-    # TODO: Implement dynamic search logic based on user preferences
-    # Just returning a sample result for now
-    result = {"destination": "Sample Destination", "description": "A beautiful place"}
-    return jsonify(result)
+    if request.method == 'GET':
+        return render_template("search.html")
+    else:
+        pass
 
 
 @app.route("/flightsearch", methods=["GET", "POST"])
@@ -242,4 +242,3 @@ def flightsearch():
             flash("No Flights Found")
     # Render the form page
     return render_template("flight_search.html", form=form)
-   
