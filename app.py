@@ -164,12 +164,9 @@ def post_change_email():
     return redirect(url_for('get_profile'))
 
 # API endpoint for dynamic search
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    if request.method == 'GET':
-        return render_template("search.html")
-    else:
-        pass
+@app.get('/search_flights')
+def search_flights():
+    return render_template("search_flights.html")
 
 
 @app.route("/flightsearch", methods=["GET", "POST"])
