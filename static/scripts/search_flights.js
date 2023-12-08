@@ -38,10 +38,11 @@ async function getFlights(){
         headers: headers
     });
     const fromAirportData = await validateJSON(getAirportResponse);
+    if(fromAirportData.data.length === 0){
+        const fromAirportField = document.getElementById("fromId");
+        fromAirportField.setCustomValidity("No Airport Found");
+    }
     const from_id = fromAirportData.data[0].id;
-
-    console.log(fromAirportData);
-    console.log(from_id);
 
     // Get the to airport id
     getAirportResponse = await fetch(`${getAirportURL}${to_city}`, {
@@ -49,7 +50,12 @@ async function getFlights(){
         headers: headers
     });
     const toAirportData = await validateJSON(getAirportResponse);
+    if(toAirportData.data.length === 0){
+        const fromAirportField = document.getElementById("toId");
+        fromAirportField.setCustomValidity("No Airport Found");
+    }
     const to_id = toAirportData.data[0].id;
+    
 
     //Get the rest of the form data
     const depart_date = document.getElementById("departDate").value;
