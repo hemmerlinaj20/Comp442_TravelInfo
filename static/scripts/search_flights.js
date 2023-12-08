@@ -28,7 +28,8 @@ async function getFlights(){
     // Get the searched cities
     const from_city = document.getElementById("fromId").value;
     const to_city = document.getElementById("toId").value;
-    //TODO: get the airport ids from the cities
+
+    // fetch the airport ids from the api based on city names
     const getAirportURL = `${RAPIDAPI_BASE_URL}searchDestination?query=`;
 
     // Get the from airport id
@@ -38,6 +39,9 @@ async function getFlights(){
     });
     const fromAirportData = await validateJSON(getAirportResponse);
     const from_id = fromAirportData.data[0].id;
+
+    console.log(fromAirportData);
+    console.log(from_id);
 
     // Get the to airport id
     getAirportResponse = await fetch(`${getAirportURL}${to_city}`, {
