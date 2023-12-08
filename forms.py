@@ -16,13 +16,3 @@ class SignUpForm(FlaskForm):
     premium = SelectField("Premium", choices = [("Y","Yes"),("N","No")]) # TODO: make an enum
     submit = SubmitField("Sign Up")
 
-# No longer needed:
-# The form has been embedded in the page and dealt with by search_flights.js
-class FlightSearchForm(FlaskForm):
-    fromId = StringField('From Airport', validators=[InputRequired()])
-    toId = StringField('To Airport', validators=[InputRequired()])
-    departDate = DateField('Departure Date', format='%Y-%m-%d', validators=[InputRequired()])
-    returnDate = DateField('Return Date', format='%Y-%m-%d',validators=[Optional()])
-    adults = IntegerField('Number of Adults', default=1)
-    sort = SelectField('Sort By', choices=[('BEST', 'Best'), ('CHEAPEST', 'Cheapest'), ('FASTEST', 'Fastest')], default='BEST')
-    submit = SubmitField("Search")
