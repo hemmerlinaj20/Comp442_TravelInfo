@@ -13,11 +13,11 @@ body {
 }
 
 .search-container {
-    width: 300px; /* Fixed width for the search container */
+    width: 300px;
     padding: 20px;
     position: sticky;
     top: 0;
-    background-color: #f0f0f0; /* Slightly darker white/grey for the left side */
+    background-color: #f0f0f0;
 }
 
 .results-container {
@@ -25,8 +25,8 @@ body {
     padding: 20px;
     text-align: center;
     box-sizing: border-box;
-    overflow-y: auto; /* Allow vertical scrolling */
-    background-color: #ffffff; /* White background for the right side */
+    overflow-y: auto;
+    background-color: #ffffff;
 }
 
 #error-messages {
