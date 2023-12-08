@@ -3,7 +3,7 @@ from flask import Flask, render_template, redirect, url_for, flash
 from flask import request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import requests
-from forms import LoginForm, SignUpForm, FlightSearchForm
+from forms import LoginForm, SignUpForm
 from hasher import Hasher
 
 # Path to database file
@@ -167,78 +167,3 @@ def post_change_email():
 @app.get('/search_flights')
 def search_flights():
     return render_template("search_flights.html")
-
-
-# DO NOT USE
-# All elements have been moved into search_flights route and search_flights.js
-# DELETE LATER
-@app.route("/flightsearch", methods=["GET", "POST"])
-def flightsearch():
-    RAPIDAPI_KEY = "f34f0f10c2msh6855d6d77950b00p18a515jsn9e45dbeb030f"
-    RAPIDAPI_HOST = "booking-com15.p.rapidapi.com"
-    RAPIDAPI_BASE_URL = "https://booking-com15.p.rapidapi.com/api/v1/flights/searchFlights"
-
-    headers = {
-        "X-RapidAPI-Key": RAPIDAPI_KEY,
-        "X-RapidAPI-Host": RAPIDAPI_HOST,
-    }
-
-    form = FlightSearchForm()
-
-    if request.method == 'POST' and form.validate_on_submit():
-        # Get form data
-        from_id = form.fromId.data
-        to_id = form.toId.data
-        depart_date = form.departDate.data.strftime('%Y-%m-%d')
-        return_date = form.returnDate.data.strftime('%Y-%m-%d') if form.returnDate.data else ""
-        adults = form.adults.data
-        sort = form.sort.data
-
-        # Make API request
-        params = {
-            "fromId": from_id,
-            "toId": to_id,
-            "departDate": str(depart_date),
-            "returnDate": str(return_date),
-            "adults": str(adults),
-            "sort": str(sort),
-            "currency_code":"USD",
-        }
-        #print("yooo77nn")
-        #print("API Request Params:", params)
-
-        response = requests.get(RAPIDAPI_BASE_URL, headers=headers, params=params)
-        result = response.json()
-
-        # if "data" in result and "flightOffers" in result["data"]:
-        flight_data = result["data"].get('flightOffers', None)
-
-        # Extracted data to pass to template
-        flights = []
-        if flight_data:
-            for flight in flight_data:
-                airport_start = flight["segments"][0]["departureAirport"]["cityName"]
-                airport_end = flight["segments"][0]["arrivalAirport"]["cityName"]
-                departureTime = flight['segments'][0]['legs'][0]['departureTime']
-                arrivalTime = flight['segments'][0]['legs'][0]['arrivalTime']
-                min_price_units = flight["priceBreakdown"]["total"]["currencyCode"]
-                price = flight["priceBreakdown"]["total"]["units"]
-                #carrier = flight_data['segments'][0]['legs'][0]['carriersData'][0]['code']
-
-                flights.append({
-                    "airport_start": airport_start,
-                    "airport_end": airport_end,
-                    "start": departureTime,
-                    "end": arrivalTime,
-                    "price_units": min_price_units,
-                    "price": price,
-                })
-                #print("yooonn0000000000000")
-            return render_template(
-                "results.html",
-                flights=flights
-            )
-        else:
-            flash("No Flights Found")
-    # Render the form page
-    return render_template("flight_search.html", form=form)
