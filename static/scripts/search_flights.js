@@ -45,6 +45,11 @@ async function getFlights(){
     const data = await validateJSON(r);
     console.log(data);
 
+    if(data.data.error){
+        console.log("not iterable")
+        // TODO: Show a message showing no flights
+    }
+    
     // Fill the table with the flights
     for(const flight of data.data.flightOffers){
         const tr = document.createElement("tr");
