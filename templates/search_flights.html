@@ -30,23 +30,18 @@
 
             <label for="fromId">From City:</label>
             <input type="text" id="fromId" name="fromId" required>
-            <br>
 
             <label for="toId">To City:</label>
             <input type="text" id="toId" name="toId" required>
-            <br>
 
             <label for="departDate">Departure Date:</label>
             <input type="date" id="departDate" name="departDate" required>
-            <br>
 
             <label for="returnDate">Return Date:</label>
             <input type="date" id="returnDate" name="returnDate">
-            <br>
 
             <label for="adults">Number of Adults:</label>
             <input type="number" id="adults" name="adults" value="1" required>
-            <br>
 
             <label for="sort">Sort by:</label>
             <select id="sort" name="sort">
@@ -54,7 +49,6 @@
                 <option value="CHEAPEST">Cheapest</option>
                 <option value="FASTEST">Fastest</option>
             </select>
-            <br>
 
             <button id="search-btn" type="submit">Search</button>
             
@@ -68,6 +62,9 @@
 
         <div class="results-container">
             <h1>Flight Search Results</h1>
+            <div id = "search-results-errors">
+
+            </div>
             <table class="table table-striped">
                 <thead>
                     <tr>

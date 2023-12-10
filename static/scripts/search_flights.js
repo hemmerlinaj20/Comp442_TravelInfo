@@ -1,6 +1,6 @@
 
 window.addEventListener("DOMContentLoaded", async ()=>{
-    // Add event listener to the search btn
+    // Add event listener to the search btn, and call getFlights when clicked
     const searchBtn = document.getElementById("search-btn");
     searchBtn.addEventListener("click", getFlights);
 });
@@ -13,23 +13,33 @@ async function getFlights(){
         tb.removeChild(tb.firstElementChild);
     }
 
-    // API connection stuff
+    // API information
     const RAPIDAPI_KEY = "f34f0f10c2msh6855d6d77950b00p18a515jsn9e45dbeb030f"
     const RAPIDAPI_HOST = "booking-com15.p.rapidapi.com"
-
     const RAPIDAPI_BASE_URL = "https://booking-com15.p.rapidapi.com/api/v1/flights/"
-
     const headers = {
         "X-RapidAPI-Key": RAPIDAPI_KEY,
         "X-RapidAPI-Host": RAPIDAPI_HOST,
     }
 
+    // Div to show error messages if no flights are found or no airport is found
+    const errorMessageDiv = document.getElementById("search-results-errors");
+    // Clear the error messages from the last search
+    while(errorMessageDiv.firstElementChild){
+        errorMessageDiv.removeChild(errorMessageDiv.firstElementChild);
+    }
+    // Show the user that the page is searching
+    const searchingMsg = document.createElement("p");
+    searchingMsg.innerText = "Searching. . .";
+    errorMessageDiv.appendChild(searchingMsg);
+
     // Get the data from the form in the page
+
     // Get the searched cities
     const from_city = document.getElementById("fromId").value;
     const to_city = document.getElementById("toId").value;
 
-    // fetch the airport ids from the api based on city names
+    // fetching the airport ids from the api based on city names
     const getAirportURL = `${RAPIDAPI_BASE_URL}searchDestination?query=`;
 
     // Get the from airport id
@@ -38,9 +48,14 @@ async function getFlights(){
         headers: headers
     });
     const fromAirportData = await validateJSON(getAirportResponse);
+    // If no airport found
     if(fromAirportData.data.length === 0){
-        const fromAirportField = document.getElementById("fromId");
-        fromAirportField.setCustomValidity("No Airport Found");
+        // Remove the Searching. . . message
+        errorMessageDiv.removeChild(errorMessageDiv.firstElementChild);
+        // Add an error stating no airport found
+        const errorMsg = document.createElement("p");
+        errorMsg.innerText = `No airport found in ${from_city}`;
+        errorMessageDiv.appendChild(errorMsg);
     }
     const from_id = fromAirportData.data[0].id;
 
@@ -50,12 +65,16 @@ async function getFlights(){
         headers: headers
     });
     const toAirportData = await validateJSON(getAirportResponse);
+    // If no airport found
     if(toAirportData.data.length === 0){
-        const fromAirportField = document.getElementById("toId");
-        fromAirportField.setCustomValidity("No Airport Found");
+        // Remove the Serching. . . message
+        errorMessageDiv.removeChild(errorMessageDiv.firstElementChild);
+        // Add a message saying no airport found
+        const errorMsg = document.createElement("p");
+        errorMsg.innerText = `No airport found in ${to_city}`;
+        errorMessageDiv.appendChild(errorMsg);
     }
     const to_id = toAirportData.data[0].id;
-    
 
     //Get the rest of the form data
     const depart_date = document.getElementById("departDate").value;
@@ -64,8 +83,7 @@ async function getFlights(){
     const sort_by = document.getElementById("sort").value;
 
     // Construct the URL to get the flight data
-    const searchFlightsURL = `${RAPIDAPI_BASE_URL}searchFlights?fromId=${from_id}&toId=${to_id}&departDate=${depart_date}&returnDate=${return_date}&pageNo=1&adults=${adults}&children=0&sort=${sort_by}&currency_code=USD`
-
+    const searchFlightsURL = `${RAPIDAPI_BASE_URL}searchFlights?fromId=${from_id}&toId=${to_id}&departDate=${depart_date}&returnDate=${return_date}&pageNo=1&adults=${adults}&children=0&sort=${sort_by}&currency_code=USD`;
     // Fetch the flight data from the API
     const searchFlightResponse = await fetch(searchFlightsURL, {
         method: "GET",
@@ -74,23 +92,31 @@ async function getFlights(){
 
     // Validate the JSON
     const searchFlightData = await validateJSON(searchFlightResponse);
-    console.log(searchFlightData);
+    //console.log(searchFlightData);
 
+    // Check if any flights are found
     if(searchFlightData.data.error){
+        // If no flights found, remove the Searching. . . message
+        errorMessageDiv.removeChild(errorMessageDiv.firstElementChild);
         console.log("not iterable")
-        // TODO: Show a message showing no flights
-    }
-
-    // Fill the table with the flights
-    for(const flight of searchFlightData.data.flightOffers){
-        const tr = document.createElement("tr");
-        insertFlight(tr, flight);
-        tb.appendChild(tr);
+        // Show a message showing no flights found
+        const errorMsg = document.createElement("p");
+        errorMsg.innerText = "No Flights Found";
+        errorMessageDiv.appendChild(errorMsg);
+    }else{
+        // Fill the table with the flights
+        for(const flight of searchFlightData.data.flightOffers){
+            const tr = document.createElement("tr");
+            insertFlight(tr, flight);
+            tb.appendChild(tr);
+        }
+        // Remove the Searching. . . message
+        errorMessageDiv.removeChild(errorMessageDiv.firstElementChild);
     }
 }
 
 async function insertFlight(tr, flight){
-    // Create td elements for each aspect of the flight
+    // Create td elements for each aspect of the flight and fill with proper data
     const fromTD = document.createElement("td");
     fromTD.innerText = flight.segments[0].departureAirport.cityName;
 
