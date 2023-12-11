@@ -45,7 +45,7 @@ def get_page():
     return redirect(url_for("get_home"))
 
 # Home page
-@app.get('/home')
+@app.get('/home/')
 def get_home():
     # Checks who is logged in (if anyone)
     user_id: int = session.get('user_id')
