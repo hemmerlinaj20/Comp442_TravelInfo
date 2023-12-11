@@ -1,8 +1,7 @@
 import os
 from flask import Flask, render_template, redirect, url_for, flash
-from flask import request, session, jsonify
+from flask import request, session
 from flask_sqlalchemy import SQLAlchemy
-import requests
 from forms import LoginForm, SignUpForm
 from hasher import Hasher
 
@@ -57,12 +56,12 @@ def get_home():
     return render_template("index.html", user = user)
     
 # Gets the login page (login_form.html)
-@app.get('/login')
+@app.get('/login/')
 def get_login():
     login_form: LoginForm = LoginForm()
     return render_template('login_form.html', form = login_form)
 # Post method for the login page
-@app.post('/login')
+@app.post('/login/')
 def post_login():
     login_form: LoginForm = LoginForm()
     if login_form.validate():
@@ -85,7 +84,7 @@ def post_login():
     return redirect(url_for('get_login'))
  
 # logout
-@app.route('/logout')
+@app.route('/logout/')
 def get_logout():
     # Clear the session and redirect to the home page
     session.clear()
@@ -94,12 +93,12 @@ def get_logout():
     return redirect(url_for('get_home'))
 
 # Signup Page
-@app.get('/signup')
+@app.get('/signup/')
 def get_signup():
     signup_form: SignUpForm = SignUpForm()
     return render_template('signup.html', form = signup_form)
 # Post for signup form
-@app.post('/signup')
+@app.post('/signup/')
 def post_signup():
     signup_form: SignUpForm = SignUpForm()
     if signup_form.validate():
@@ -124,7 +123,7 @@ def post_signup():
                 flash(f"{field}: {error_msg}")
     return redirect(url_for('get_signup'))
 
-@app.get('/profile')
+@app.get('/profile/')
 def get_profile():
     user_id: int = session.get('user_id')
     user: User = User.query.get(user_id) # current user logged in
@@ -164,6 +163,6 @@ def post_change_email():
     return redirect(url_for('get_profile'))
 
 # Search Flights route
-@app.get('/search_flights')
+@app.get('/search_flights/')
 def search_flights():
     return render_template("search_flights.html")
