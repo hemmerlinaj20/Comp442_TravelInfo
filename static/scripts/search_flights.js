@@ -124,10 +124,12 @@ async function insertFlight(tr, flight){
     toTD.innerText = flight.segments[0].arrivalAirport.cityName;
 
     const depart_timeTD = document.createElement("td");
-    depart_timeTD.innerText = flight.segments[0].legs[0].departureTime;
+    const depart = flight.segments[0].legs[0].departureTime.split("T");
+    depart_timeTD.innerText = `${depart[0]} ${depart[1]}`;
 
     const arrive_timeTD = document.createElement("td");
-    arrive_timeTD.innerText = flight.segments[0].legs[0].arrivalTime;
+    const arrive = flight.segments[0].legs[0].arrivalTime.split("T");
+    arrive_timeTD.innerText = `${arrive[0]} ${arrive[1]}`;
 
     const priceTD = document.createElement("td");
     priceTD.innerText = flight.priceBreakdown.total.units;
