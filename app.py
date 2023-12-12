@@ -163,6 +163,6 @@ def post_change_email():
     return redirect(url_for('get_profile'))
 
 # Search Flights route
-@app.get('/search_flights/')
+@app.get('/search_flights')
 def search_flights():
     return render_template("search_flights.html")
