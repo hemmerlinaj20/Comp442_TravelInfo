@@ -98,7 +98,7 @@ def get_signup():
     signup_form: SignUpForm = SignUpForm()
     return render_template('signup.html', form = signup_form)
 # Post for signup form
-@app.post('/signup')
+@app.post('/signup/')
 def post_signup():
     signup_form: SignUpForm = SignUpForm()
     if signup_form.validate():
