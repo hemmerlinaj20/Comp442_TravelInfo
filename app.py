@@ -98,7 +98,7 @@ def get_signup():
     signup_form: SignUpForm = SignUpForm()
     return render_template('signup.html', form = signup_form)
 # Post for signup form
-@app.post('/signup/')
+@app.post('/signup')
 def post_signup():
     signup_form: SignUpForm = SignUpForm()
     if signup_form.validate():
@@ -123,28 +123,28 @@ def post_signup():
                 flash(f"{field}: {error_msg}")
     return redirect(url_for('get_signup'))
 
-@app.get('/profile/')
+@app.get('/profile')
 def get_profile():
     user_id: int = session.get('user_id')
     user: User = User.query.get(user_id) # current user logged in
     # Render this user's profile information
     return render_template('profile.html', user = user)
 
-@app.post('/change_name/')
+@app.post('/change_name')
 def post_change_name():
     user: User = User.query.get(session.get('user_id'))
     user.name = request.form.get("name")
     db.session.commit()
     return redirect(url_for('get_profile'))
 
-@app.post('/change_premium/')
+@app.post('/change_premium')
 def post_change_premium():
     user: User = User.query.get(session.get('user_id'))
     user.premium = request.form.get("premium")
     db.session.commit()
     return redirect(url_for('get_profile'))
 
-@app.post('/change_password/')
+@app.post('/change_password')
 def post_change_password():
     user: User = User.query.get(session.get('user_id'))
     if hasher.check(request.form.get("old-password"), user.password_hash):
@@ -155,7 +155,7 @@ def post_change_password():
         flash("Invalid Password","error")
         return redirect(url_for('get_profile'))
 
-@app.post('/change_email/')
+@app.post('/change_email')
 def post_change_email():
     user: User = User.query.get(session.get('user_id'))
     user.email = request.form.get("email")
