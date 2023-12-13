@@ -26,7 +26,7 @@ class User(db.Model):
     name = db.Column(db.Unicode, nullable = False)
     email = db.Column(db.Unicode, nullable=False)
     password_hash = db.Column(db.Unicode, nullable = False)
-    premium = db.Column(db.Unicode, nullable = False) # TODO: Make this an enum "Y" or "N"
+    premium = db.Column(db.Unicode, nullable = False)
 
 # Create database tables
 with app.app_context():
@@ -166,3 +166,8 @@ def post_change_email():
 @app.get('/search_flights')
 def search_flights():
     return render_template("search_flights.html")
+
+# Search Hotels Route
+@app.get('/search_hotels')
+def search_hotels():
+    return render_template("search_hotels.html")
