@@ -27,6 +27,34 @@ class User(db.Model):
     email = db.Column(db.Unicode, nullable=False)
     password_hash = db.Column(db.Unicode, nullable = False)
     premium = db.Column(db.Unicode, nullable = False)
+    trips = db.relationship('Trip', backref='user')
+
+# Flight Model
+class Flight(db.Model):
+    fid = db.Column(db.Integer, primary_key=True)
+    from_city = db.Column(db.Unicode, nullable=False)
+    to_city = db.Column(db.Unicode, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+
+# Hotel Model
+class Hotel(db.Model):
+    hid = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Unicode, nullable=False)
+    stay_length = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+
+#Attraction Model
+class Attraction(db.Model):
+    # Implement Later
+    pass
+
+# Trip model
+class Trip(db.Model):
+    tip = db.Column(db.Integer, primry_key=True)
+    user = db.Column(db.Integer, db.ForeignKey('User.uid'))
+    flight = db.Column(db.Integer, db.ForeignKey('Flight.fid'))
+    hotel = db.Column(db.Integer, db.ForeignKey('Hotel.hid'))
+    # Do Attractions Later
 
 # Create database tables
 with app.app_context():
