@@ -73,6 +73,9 @@
                         <th>Departure Time</th>
                         <th>Arrival Time</th>
                         <th>Price</th>
+                        {% if user.premium == "Y" %}
+                            <th id="btn_row">Add Flight</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody id="results-table-body">

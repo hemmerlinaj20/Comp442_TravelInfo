@@ -207,6 +207,9 @@ def search_flights():
     user_id: int = session.get('user_id')
     user: User = User.query.get(user_id) # current user logged in
     return render_template("search_flights.html", user = user)
+@app.post('/search_flights')
+def post_search_flights():
+    pass
 
 # Search Hotels Route
 @app.get('/search_hotels')

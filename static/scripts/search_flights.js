@@ -3,6 +3,7 @@ window.addEventListener("DOMContentLoaded", async ()=>{
     // Add event listener to the search btn, and call getFlights when clicked
     const searchBtn = document.getElementById("search-btn");
     searchBtn.addEventListener("click", getFlights);
+
 });
 
 async function getFlights(){
@@ -107,6 +108,7 @@ async function getFlights(){
         // Fill the table with the flights
         for(const flight of searchFlightData.data.flightOffers){
             const tr = document.createElement("tr");
+            tr.id = `${flight.offerKeyToHighlight}-tr`;
             insertFlight(tr, flight);
             tb.appendChild(tr);
         }
@@ -119,20 +121,36 @@ async function insertFlight(tr, flight){
     // Create td elements for each aspect of the flight and fill with proper data
     const fromTD = document.createElement("td");
     fromTD.innerText = flight.segments[0].departureAirport.cityName;
+    fromTD.id = `${flight.offerKeyToHighlight}-from`;
 
     const toTD = document.createElement("td");
     toTD.innerText = flight.segments[0].arrivalAirport.cityName;
+    toTD.id = `${flight.offerKeyToHighlight}-to`;
 
     const depart_timeTD = document.createElement("td");
     const depart = flight.segments[0].legs[0].departureTime.split("T");
     depart_timeTD.innerText = `${depart[0]} ${depart[1]}`;
+    depart_timeTD.id = `${flight.offerKeyToHighlight}-depart-time`;
 
     const arrive_timeTD = document.createElement("td");
     const arrive = flight.segments[0].legs[0].arrivalTime.split("T");
     arrive_timeTD.innerText = `${arrive[0]} ${arrive[1]}`;
+    arrive_timeTD.id = `${flight.offerKeyToHighlight}-arrive-time`;
 
     const priceTD = document.createElement("td");
     priceTD.innerText = flight.priceBreakdown.total.units;
+    priceTD.id = `${flight.offerKeyToHighlight}-price`;
+
+    const btn_row = document.getElementById("btn_row");
+    let add_btn = "";
+    if(btn_row !== null){
+        add_btn = document.createElement("btn");
+        add_btn.innerText = "Add";
+        add_btn.classList.add("btn");
+        add_btn.classList.add("btn-primary");
+        add_btn.id = `${flight.offerKeyToHighlight}`;
+        add_btn.addEventListener("click", addFlight);
+    }
 
     // Add the data to the table row
     tr.appendChild(fromTD);
@@ -140,7 +158,16 @@ async function insertFlight(tr, flight){
     tr.appendChild(depart_timeTD);
     tr.appendChild(arrive_timeTD);
     tr.appendChild(priceTD);
+    if(btn_row !== null){
+        tr.appendChild(add_btn);
+    }
 }
+
+async function addFlight(event){
+    const btn = event.target;
+    console.log(btn.id);
+}
+
 
 /**
  * Validate a response to ensure the HTTP status code indcates success.
