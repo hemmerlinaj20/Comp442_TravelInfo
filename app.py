@@ -231,3 +231,10 @@ def search_hotels():
     user_id: int = session.get('user_id')
     user: User = User.query.get(user_id) # current user logged in
     return render_template("search_hotels.html", user = user)
+
+# Search Attraction Route
+@app.get('/search_attractions')
+def search_attractions():
+    user_id: int = session.get('user_id')
+    user: User = User.query.get(user_id) # current user logged in
+    return render_template("search_attractions.html", user = user)
