@@ -46,7 +46,7 @@ class Hotel(db.Model):
 #Attraction Model
 class Attraction(db.Model):
     # Implement Later
-    pass
+    aid = db.Column(db.Integer, primary_key=True)
 
 # Trip model
 class Trip(db.Model):
