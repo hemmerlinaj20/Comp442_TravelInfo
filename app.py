@@ -34,17 +34,20 @@ class User(db.Model):
 class Flight(db.Model):
     __tablename__ = "Flights"
     fid = db.Column(db.Integer, primary_key=True)
-    from_city = db.Column(db.Unicode, nullable=False)
-    to_city = db.Column(db.Unicode, nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.uid'))
+    from_city = db.Column(db.Unicode, nullable=True)
+    to_city = db.Column(db.Unicode, nullable=True)
+    depart_date = db.Column(db.Unicode, nullable=True)
+    price = db.Column(db.Float, nullable=True)
 
 # Hotel Model
 class Hotel(db.Model):
     __tablename__ = "Hotels"
     hid = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Unicode, nullable=False)
-    stay_length = db.Column(db.Integer, nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.uid'))
+    name = db.Column(db.Unicode, nullable=True)
+    stay_length = db.Column(db.Integer, nullable=True)
+    price = db.Column(db.Float, nullable=True)
 
 #Attraction Model
 class Attraction(db.Model):
@@ -209,7 +212,18 @@ def search_flights():
     return render_template("search_flights.html", user = user)
 @app.post('/search_flights')
 def post_search_flights():
-    pass
+    user_id: int = session.get('user_id')
+    user: User = User.query.get(user_id) # current user logged in
+    flight: Flight = Flight(
+        user_id = user_id,
+        from_city = request.json['from_city'],
+        to_city = request.json['to_city'],
+        depart_date = request.json['depart_time'],
+        price = request.json['price']
+    )
+    db.session.add(flight)
+    db.session.commit()
+
 
 # Search Hotels Route
 @app.get('/search_hotels')

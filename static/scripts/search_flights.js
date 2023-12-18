@@ -165,7 +165,20 @@ async function insertFlight(tr, flight){
 
 async function addFlight(event){
     const btn = event.target;
-    console.log(btn.id);
+    const base_id = btn.id;
+    const flight = {
+        from_city: document.getElementById(`${base_id}-from`),
+        to_city: document.getElementById(`${base_id}-to`),
+        price: document.getElementById(`${base_id}-price`),
+        depart_time: document.getElementById(`${base_id}-depart-time`)
+    };
+    const request = fetch("/search_flights", {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(flight)
+    });
 }
 
 
