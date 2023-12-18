@@ -197,14 +197,20 @@ def post_change_email():
 # Create/Plan trip route
 @app.get('/create_trip')
 def create_trip():
-    return render_template("create_trip.html")
+    user_id: int = session.get('user_id')
+    user: User = User.query.get(user_id) # current user logged in
+    return render_template("create_trip.html", user = user)
 
 # Search Flights route
 @app.get('/search_flights')
 def search_flights():
-    return render_template("search_flights.html")
+    user_id: int = session.get('user_id')
+    user: User = User.query.get(user_id) # current user logged in
+    return render_template("search_flights.html", user = user)
 
 # Search Hotels Route
 @app.get('/search_hotels')
 def search_hotels():
-    return render_template("search_hotels.html")
+    user_id: int = session.get('user_id')
+    user: User = User.query.get(user_id) # current user logged in
+    return render_template("search_hotels.html", user = user)
