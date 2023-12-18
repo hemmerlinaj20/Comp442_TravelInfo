@@ -121,7 +121,6 @@ def post_login():
 def get_logout():
     # Clear the session and redirect to the home page
     session.clear()
-    # TODO: MAKE THE ERROR MESSAGE DISMISSABLE (NOT WORKING FOR SOME REASON)
     flash('You have logged out', 'info')
     return redirect(url_for('get_home'))
 
@@ -195,6 +194,7 @@ def post_change_email():
     db.session.commit()
     return redirect(url_for('get_profile'))
 
+# Create/Plan trip route
 @app.get('/create_trip')
 def create_trip():
     return render_template("create_trip.html")
