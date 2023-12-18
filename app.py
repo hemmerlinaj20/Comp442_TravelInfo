@@ -22,6 +22,7 @@ db = SQLAlchemy(app)
 
 # Define user model
 class User(db.Model):
+    __tablename__ = "Users"
     uid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode, nullable = False)
     email = db.Column(db.Unicode, nullable=False)
@@ -31,6 +32,7 @@ class User(db.Model):
 
 # Flight Model
 class Flight(db.Model):
+    __tablename__ = "Flights"
     fid = db.Column(db.Integer, primary_key=True)
     from_city = db.Column(db.Unicode, nullable=False)
     to_city = db.Column(db.Unicode, nullable=False)
@@ -38,6 +40,7 @@ class Flight(db.Model):
 
 # Hotel Model
 class Hotel(db.Model):
+    __tablename__ = "Hotels"
     hid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode, nullable=False)
     stay_length = db.Column(db.Integer, nullable=False)
@@ -45,15 +48,17 @@ class Hotel(db.Model):
 
 #Attraction Model
 class Attraction(db.Model):
+    __tablename__ = "Attractions"
     # Implement Later
     aid = db.Column(db.Integer, primary_key=True)
 
 # Trip model
 class Trip(db.Model):
+    __tablename__ = "Trips"
     tip = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.Integer, db.ForeignKey('User.uid'))
-    flight = db.Column(db.Integer, db.ForeignKey('Flight.fid'))
-    hotel = db.Column(db.Integer, db.ForeignKey('Hotel.hid'))
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.uid'))
+    flight = db.Column(db.Integer, db.ForeignKey('Flights.fid'))
+    hotel = db.Column(db.Integer, db.ForeignKey('Hotels.hid'))
     # Do Attractions Later
 
 # Create database tables
