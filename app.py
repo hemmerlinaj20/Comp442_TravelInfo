@@ -162,6 +162,10 @@ def post_change_email():
     db.session.commit()
     return redirect(url_for('get_profile'))
 
+@app.get('/create_trip')
+def create_trip():
+    return render_template("create_trip.html")
+
 # Search Flights route
 @app.get('/search_flights')
 def search_flights():
