@@ -32,6 +32,16 @@
             {% endif %}
         </div>
         <div id="links" class="text-center mt-4">
+            <a class="btn btn-success" href="{{url_for('search_flights')}}">Search Flights</a>
+            <br>
+            <a class="btn btn-success" href="{{url_for('search_hotels')}}">Search Hotels</a>
+            <br>
+            <a class="btn btn-success" href="{{url_for('search_attractions')}}">Search Attractions</a>
+            <br>
+            {% if user.premium == 'Y' %}
+            <a class="btn btn-info" href="{{url_for('saved')}}">See Saved</a>
+            <br>
+            {% endif %}
             {% if user %}
             <a class="btn btn-primary" href="{{url_for('get_profile')}}">View Profile</a>
             <br>
@@ -43,8 +53,6 @@
             <a class="btn btn-info" href="{{url_for('get_signup')}}">Sign Up</a>
             <br>
             {% endif %}
-            <a class="btn btn-warning" href="{{url_for('search_flights')}}">Search Flights</a>
-            <br>
         </div>
     </div>
 </body>

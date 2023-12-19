@@ -62,11 +62,13 @@
                     <div class="card-header">
                         Attraction
                     </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li> {{attraction.name}} </li>
-                        <li> Cost: {{attraction.price}} </li>
-                    </ul>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li> {{attraction.name}} </li>
+                            <li> Rating: {{attraction.rating}} </li>
+                            <li> Cost: ${{attraction.price}} </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             {% endfor %}
