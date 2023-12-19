@@ -138,6 +138,7 @@ async function addAttraction(event){
     
     const btn = event.target;
     const base_id = btn.id;
+    btn.innerText = "Added";
     const attraction = {
         name: document.getElementById(`${base_id}-name`).innerText,
         rating: document.getElementById(`${base_id}-details`).innerText,

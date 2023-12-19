@@ -171,6 +171,7 @@ async function addFlight(event){
 
     const btn = event.target;
     const base_id = btn.id;
+    btn.innerText = "Added";
     console.log(document.getElementById(`${base_id}-from`).innerText);
     const flight = {
         from_city: document.getElementById(`${base_id}-from`).innerText,

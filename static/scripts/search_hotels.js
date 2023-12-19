@@ -144,6 +144,7 @@ async function addHotel(event){
     }
     
     const btn = event.target;
+    btn.innerText = "Added";
     const base_id = btn.id;
     const hotel = {
         name: document.getElementById(`${base_id}-name`).innerText,
