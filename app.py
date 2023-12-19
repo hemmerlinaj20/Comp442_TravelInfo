@@ -48,7 +48,7 @@ class Hotel(db.Model):
     hid = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('Users.uid'))
     name = db.Column(db.Unicode, nullable=True)
-    stay_length = db.Column(db.Integer, nullable=True)
+    check_in_date = db.Column(db.Integer, nullable=True)
     price = db.Column(db.Float, nullable=True)
 
 #Attraction Model
@@ -224,10 +224,8 @@ def post_search_flights():
         depart_date = request.json['depart_date'],
         price = request.json['price']
     )
-    print(flight)
     db.session.add(flight)
     db.session.commit()
-    flash("Flight Saved")
     return redirect(url_for('search_flights'))
 
 # Search Hotels Route
@@ -236,6 +234,19 @@ def search_hotels():
     user_id: int = session.get('user_id')
     user: User = User.query.get(user_id) # current user logged in
     return render_template("search_hotels.html", user = user)
+@app.post('/search_hotels')
+def post_search_hotels():
+    user_id: int = session.get('user_id')
+    user: User = User.query.get(user_id) # current user logged in
+    hotel: Hotel = Hotel(
+        user = user,
+        name = request.json['name'],
+        check_in_date = request.json['check_in_date'],
+        price = request.json['price']
+    )
+    db.session.add(hotel)
+    db.session.commit()
+    return redirect(url_for('search_hotels'))
 
 # Search Attraction Route
 @app.get('/search_attractions')

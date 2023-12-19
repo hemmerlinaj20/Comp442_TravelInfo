@@ -145,7 +145,7 @@ async function insertFlight(tr, flight){
     let add_btn = "";
     if(btn_row !== null){
         add_btn = document.createElement("btn");
-        add_btn.innerText = "Add";
+        add_btn.innerText = "Add To Saved";
         add_btn.classList.add("btn");
         add_btn.classList.add("btn-primary");
         add_btn.id = `${flight.offerKeyToHighlight}`;
@@ -168,7 +168,7 @@ async function addFlight(event){
     while(errorMessageDiv.firstElementChild){
         errorMessageDiv.removeChild(errorMessageDiv.firstElementChild);
     }
-    
+
     const btn = event.target;
     const base_id = btn.id;
     console.log(document.getElementById(`${base_id}-from`).innerText);

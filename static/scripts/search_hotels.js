@@ -94,6 +94,7 @@ async function getHotels(){
         // Fill the table with the hotels
         for(const hotel of searchHotelsData.data.hotels){
             const tr = document.createElement("tr");
+            tr.id = `${hotel.property.id}-tr`;
             insertHotel(tr, hotel);
             tb.appendChild(tr);
         }
@@ -104,19 +105,62 @@ async function getHotels(){
 
 async function insertHotel(tr, hotel){
     // Create td elements for each aspect of the hotel and fill with proper data
-    const cityTD = document.createElement("td");
-    cityTD.innerText = hotel.property.name;
+    const nameTD = document.createElement("td");
+    nameTD.innerText = hotel.property.name;
+    nameTD.id = `${hotel.property.id}-name`;
 
     const priceTD = document.createElement("td");
-    priceTD.innerText = `${hotel.property.priceBreakdown.grossPrice.value.toFixed(2)} ${hotel.property.priceBreakdown.grossPrice.currency}`;
+    priceTD.innerText = `${hotel.property.priceBreakdown.grossPrice.value.toFixed(2)}`;
+    priceTD.id = `${hotel.property.id}-price`;
 
     const detailsTD = document.createElement("td");
     detailsTD.innerText = `${hotel.property.reviewScore}/10`;
+    detailsTD.id = `${hotel.property.id}-details`;
+
+    const btn_row = document.getElementById("btn_row");
+    let add_btn = "";
+    if(btn_row !== null){
+        add_btn = document.createElement("btn");
+        add_btn.innerText = "Add To Saved";
+        add_btn.classList.add("btn");
+        add_btn.classList.add("btn-primary");
+        add_btn.id = `${hotel.property.id}`;
+        add_btn.addEventListener("click", addHotel);
+    }
 
     // Add the data to the table row
-    tr.appendChild(cityTD);
+    tr.appendChild(nameTD);
     tr.appendChild(priceTD);
     tr.appendChild(detailsTD);
+    if(btn_row !== null){
+        tr.appendChild(add_btn);
+    }
+}
+
+async function addHotel(event){
+    const errorMessageDiv = document.getElementById("search-results-errors");
+    while(errorMessageDiv.firstElementChild){
+        errorMessageDiv.removeChild(errorMessageDiv.firstElementChild);
+    }
+    
+    const btn = event.target;
+    const base_id = btn.id;
+    const hotel = {
+        name: document.getElementById(`${base_id}-name`).innerText,
+        check_in_date: document.getElementById("arrivalDate").value,
+        price: document.getElementById(`${base_id}-price`).innerText,
+    };
+    const request = fetch("/search_hotels", {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(hotel)
+    });
+    
+    const message = document.createElement("p");
+    message.innerText = "Hotel Saved";
+    errorMessageDiv.appendChild(message);
 }
 
 /**
