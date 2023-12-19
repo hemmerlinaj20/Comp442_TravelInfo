@@ -208,6 +208,18 @@ def saved():
     user_id: int = session.get('user_id')
     user: User = User.query.get(user_id) # current user logged in
     return render_template("saved.html", user = user)
+@app.post('/saved')
+def post_saved():
+    remove_from = request.json['remove_from']
+    remove_num = request.json['entry_id']
+    if remove_from == 'flight':
+        db.session.delete(Flight.query.get(remove_num))
+    elif remove_from == 'hotel':
+        db.session.delete(Hotel.query.get(remove_num))
+    else:
+        db.session.delete(Attraction.query.get(remove_num))
+    db.session.commit()
+    return redirect(url_for('saved'))
 
 # Search Flights route
 @app.get('/search_flights')
