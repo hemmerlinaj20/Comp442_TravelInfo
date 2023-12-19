@@ -164,6 +164,11 @@ async function insertFlight(tr, flight){
 }
 
 async function addFlight(event){
+    const errorMessageDiv = document.getElementById("search-results-errors");
+    while(errorMessageDiv.firstElementChild){
+        errorMessageDiv.removeChild(errorMessageDiv.firstElementChild);
+    }
+    
     const btn = event.target;
     const base_id = btn.id;
     console.log(document.getElementById(`${base_id}-from`).innerText);
@@ -180,6 +185,10 @@ async function addFlight(event){
         },
         body: JSON.stringify(flight)
     });
+    
+    const message = document.createElement("p");
+    message.innerText = "Flight Saved";
+    errorMessageDiv.appendChild(message);
 }
 
 
