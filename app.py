@@ -71,14 +71,14 @@ class Trip(db.Model):
 
 # Create database tables
 with app.app_context():
-    db.drop_all() # TESTING - REMOVE LATER
+    #db.drop_all() # TESTING - REMOVE LATER
     db.create_all()
     # DUMMY USERS FOR TESTING - DELETE LATER
-    user1 = User(name = "Bob", email = "hi@gmail.com", password_hash = hasher.hash("12345678"), premium = "N")
-    user2 = User(name = "Joe", email = "hey@gmail.com", password_hash = hasher.hash("00000000"), premium = "Y")
-    db.session.add(user1)
-    db.session.add(user2)
-    db.session.commit()
+    #user1 = User(name = "Bob", email = "hi@gmail.com", password_hash = hasher.hash("12345678"), premium = "N")
+    #user2 = User(name = "Joe", email = "hey@gmail.com", password_hash = hasher.hash("00000000"), premium = "Y")
+    #db.session.add(user1)
+    #db.session.add(user2)
+    #db.session.commit()
 
 # Base route to redirect to home page
 @app.get('/')
