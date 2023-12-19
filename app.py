@@ -28,7 +28,9 @@ class User(db.Model):
     email = db.Column(db.Unicode, nullable=False)
     password_hash = db.Column(db.Unicode, nullable = False)
     premium = db.Column(db.Unicode, nullable = False)
-    trips = db.relationship('Trip', backref='user')
+    flights = db.relationship('Flight', backref='user')
+    hotels = db.relationship('Hotel', backref='user')
+    attractions = db.relationship('Attraction', backref='user')
 
 # Flight Model
 class Flight(db.Model):
@@ -52,8 +54,9 @@ class Hotel(db.Model):
 #Attraction Model
 class Attraction(db.Model):
     __tablename__ = "Attractions"
-    # Implement Later
     aid = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.uid'))
+    price = db.Column(db.Float, nullable=True)
 
 # Trip model
 class Trip(db.Model):
@@ -198,11 +201,11 @@ def post_change_email():
     return redirect(url_for('get_profile'))
 
 # Create/Plan trip route
-@app.get('/create_trip')
-def create_trip():
+@app.get('/saved')
+def saved():
     user_id: int = session.get('user_id')
     user: User = User.query.get(user_id) # current user logged in
-    return render_template("create_trip.html", user = user)
+    return render_template("saved.html", user = user)
 
 # Search Flights route
 @app.get('/search_flights')
@@ -215,15 +218,17 @@ def post_search_flights():
     user_id: int = session.get('user_id')
     user: User = User.query.get(user_id) # current user logged in
     flight: Flight = Flight(
-        user_id = user_id,
+        user = user,
         from_city = request.json['from_city'],
         to_city = request.json['to_city'],
-        depart_date = request.json['depart_time'],
+        depart_date = request.json['depart_date'],
         price = request.json['price']
     )
+    print(flight)
     db.session.add(flight)
     db.session.commit()
-
+    flash("Flight Saved")
+    return redirect(url_for('search_flights'))
 
 # Search Hotels Route
 @app.get('/search_hotels')

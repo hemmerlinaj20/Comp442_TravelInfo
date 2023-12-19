@@ -22,8 +22,7 @@
     <div id="links">
         <a class="btn btn-success" href="{{url_for('search_flights')}}">Search Flights</a>
         <a class="btn btn-success" href="{{url_for('search_hotels')}}">Search Hotels</a>
-        <!-- CHANGE TO SEARCH ATTRACTIONS -->
-        <a class="btn btn-success" href="{{url_for('search_hotels')}}">Search Attractions</a>
+        <a class="btn btn-success" href="{{url_for('search_attractions')}}">Search Attractions</a>
     </div>
     <div id="cards" class="container">
         <div class="row align-items-center justify-content-center mt-5">
@@ -34,10 +33,10 @@
                       Flight
                     </div>
                     <div class="card-body">
-                      <h1 class="card-title"> {{flight.from_city}} - {{flight.to_city}} </h1>
                       <ul class="list-group list-group-flush">
+                        <li> {{flight.from_city}} - {{flight.to_city}} </li>
                         <li> Departs: {{flight.depart_date}} </li>
-                        <li> Cost: {{flight.price}} </li>
+                        <li> Cost: ${{'{0:.2f}'.format(flight.price)}} </li>
                       </ul>
                     </div>
                 </div>
@@ -50,8 +49,8 @@
                         Hotel
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title"> {{hotel.name}} </h1>
                         <ul class="list-group list-group-flush">
+                            <li> {{hotel.name}} </li>
                             <li> Stay Length: {{hotel.stay_length}} days </li>
                             <li> Cost: {{hotel.price}} </li>
                         </ul>
@@ -66,8 +65,8 @@
                         Attraction
                     </div>
                 <div class="card-body">
-                    <h1 class="card-title"> {{attraction.name}} </h1>
                     <ul class="list-group list-group-flush">
+                        <li> {{attraction.name}} </li>
                         <li> Cost: {{attraction.price}} </li>
                     </ul>
                 </div>
