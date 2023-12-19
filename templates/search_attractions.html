@@ -56,8 +56,11 @@
                 <thead>
                     <tr>
                         <th>Attraction Name</th>
-                        <th>Price</th>
+                        <th>Price (USD)</th>
                         <th>Rating</th>
+                        {% if user.premium == "Y" %}
+                            <th id="btn_row">Save Attraction</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody id="results-table-body">

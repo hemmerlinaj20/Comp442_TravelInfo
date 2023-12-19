@@ -56,6 +56,8 @@ class Attraction(db.Model):
     __tablename__ = "Attractions"
     aid = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('Users.uid'))
+    name = db.Column(db.Unicode, nullable = True)
+    rating = db.Column(db.Unicode, nullable = True)
     price = db.Column(db.Float, nullable=True)
 
 # Trip model
@@ -254,3 +256,16 @@ def search_attractions():
     user_id: int = session.get('user_id')
     user: User = User.query.get(user_id) # current user logged in
     return render_template("search_attractions.html", user = user)
+@app.post('/search_attractions')
+def post_search_attractions():
+    user_id: int = session.get('user_id')
+    user: User = User.query.get(user_id) # current user logged in
+    attraction: Attraction = Attraction(
+        user = user,
+        name = request.json['name'],
+        rating = request.json['rating'],
+        price = request.json['price']
+    )
+    db.session.add(attraction)
+    db.session.commit()
+    return redirect(url_for('search_attractions'))

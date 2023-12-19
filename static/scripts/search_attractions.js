@@ -98,19 +98,62 @@ async function getAttractions(){
 
 async function insertAttractions(tr, Attraction){
     // Create td elements for each aspect of the Attractions and fill with proper data
-    const cityTD = document.createElement("td");
-    cityTD.innerText = Attraction.name;
+    const nameTD = document.createElement("td");
+    nameTD.innerText = Attraction.name;
+    nameTD.id = `${Attraction.id}-name`;
 
     const priceTD = document.createElement("td");
-    priceTD.innerText = `${Attraction.representativePrice.chargeAmount.toFixed(2)} ${Attraction.representativePrice.currency}`;
+    priceTD.innerText = `${Attraction.representativePrice.chargeAmount.toFixed(2)}`;
+    priceTD.id = `${Attraction.id}-price`;
 
     const detailsTD = document.createElement("td");
     detailsTD.innerText = `${Attraction.reviewsStats.combinedNumericStats.average}/5`;
+    detailsTD.id = `${Attraction.id}-details`;
+
+    const btn_row = document.getElementById("btn_row");
+    let add_btn = "";
+    if(btn_row !== null){
+        add_btn = document.createElement("btn");
+        add_btn.innerText = "Add To Saved";
+        add_btn.classList.add("btn");
+        add_btn.classList.add("btn-primary");
+        add_btn.id = `${Attraction.id}`;
+        add_btn.addEventListener("click", addAttraction);
+    }
 
     // Add the data to the table row
-    tr.appendChild(cityTD);
+    tr.appendChild(nameTD);
     tr.appendChild(priceTD);
     tr.appendChild(detailsTD);
+    if(btn_row !== null){
+        tr.appendChild(add_btn);
+    }
+}
+
+async function addAttraction(event){
+    const errorMessageDiv = document.getElementById("search-results-errors");
+    while(errorMessageDiv.firstElementChild){
+        errorMessageDiv.removeChild(errorMessageDiv.firstElementChild);
+    }
+    
+    const btn = event.target;
+    const base_id = btn.id;
+    const attraction = {
+        name: document.getElementById(`${base_id}-name`).innerText,
+        rating: document.getElementById(`${base_id}-details`).innerText,
+        price: document.getElementById(`${base_id}-price`).innerText,
+    };
+    const request = fetch("/search_attractions", {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(attraction)
+    });
+    
+    const message = document.createElement("p");
+    message.innerText = "Attraction Saved";
+    errorMessageDiv.appendChild(message);
 }
 
 /**
